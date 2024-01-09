@@ -1,15 +1,13 @@
 import React from "react";
+import { Button, Fab } from "@mui/material";
 
-const EllipseButton = ({name, bgColor, isIcon=false, icon}) => {
+const EllipseButton = ({name, color, isIcon=false, icon, onClick}) => {
   return (
-    <button
-      type="button"
-      className={`size-10 rounded-full ${bgColor}`}
-    >
+    <Fab size="large" color={`${color}`} onClick={onClick}>
       <div className="flex justify-center items-center">
         {isIcon ? icon : name}
       </div>
-    </button>
+    </Fab>
   );
 };
 

@@ -1,15 +1,33 @@
 import '../index.css';
 import EllipseButton from '../components/EllipseButton';
-import { LuPlus } from "react-icons/lu";
+import DreamEntryModal from '../components/DreamEntryModal';
 
+import { LuPlus } from "react-icons/lu";
+import { SiGithub } from "react-icons/si";
+import { useState } from 'react';
+import { Button } from '@mui/material';
 
 function Home() {
-  return (
-    <div className='flex justify-center flex-row'>
-      <p className='text-slate-300 font-semibold text-4xl padding p-8'>Reverie Journal</p>
+  const [openDreamEntryModal, setOpenDreamEntryModal] = useState(false);
 
-      <span className='absolute z-10 bottom-10 right-10'>
-        <EllipseButton name='Add' bgColor={'bg-slate-300'} isIcon={true} icon={<LuPlus size={24} />} />
+  return (
+    <div className='flex'>
+      <div className='flex items-center justify-between w-full'>
+        <p className='text-slate-300 font-normal text-4xl padding p-4'>Reverie Journal</p>
+        <div className=' p-4'>
+          <Button variant='outlined' color='primary' href='https://github.com/Pyromagne/Reverie-Journal' target="_blank" startIcon={<SiGithub />}>Github</Button>
+        </div>
+      </div>
+      <div>
+        <DreamEntryModal 
+          openModal={openDreamEntryModal}
+          setOpenModal={setOpenDreamEntryModal}
+        />
+      </div>
+      <span className='absolute z-10 bottom-5 right-5 md:bottom-10 md:right-10'>
+        <EllipseButton name='Add' color='primary' isIcon={true} icon={<LuPlus size={28} />} 
+          onClick={() => { setOpenDreamEntryModal(true); }}
+        />
       </span>
     </div>
   );

@@ -8,7 +8,7 @@ import './index.css';
 
 function App() {
   return (
-    <div className='flex justify-center flex-row'>
+    <div>
       <BrowserRouter>
         <Routes>
           <Route path="" element={<Home />} />
