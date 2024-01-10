@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+  font-family: 'Century Gothic';
+}
 body {
   margin: 0;
   font-family: 'Century Gothic';
