@@ -14,13 +14,16 @@ function Home() {
   const [openDreamEntryModal, setOpenDreamEntryModal] = useState(false);
 
   return (
-    <div className='flex'>
+    <div className='flex flex-col'>
       <div className='flex items-center justify-between w-full'>
-        <p className='text-slate-300 font-normal text-4xl padding p-4'>Reverie Journal</p>
+        <p className='text-slate-100 font-normal text-4xl padding p-4'>Reverie Journal</p>
         <div className=' p-4'>
           <Button variant='outlined' color='primary' href='https://github.com/Pyromagne/Reverie-Journal' target="_blank" startIcon={<SiGithub />} sx={centuryGothicFont}>Github</Button>
         </div>
       </div>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DateCalendar className='bg-slate-100 rounded' readOnly/>
+      </LocalizationProvider>
       <div>
         <DreamEntryModal 
           openModal={openDreamEntryModal}

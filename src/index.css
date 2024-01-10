@@ -10,7 +10,7 @@ body {
   font-family: 'Century Gothic';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply bg-slate-800;
+  @apply bg-slate-700;
 }
 
 code {
