@@ -7,6 +7,7 @@ import { DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {  } from '@mui/material';
+import dayjs from 'dayjs';
 
 const DreamEntryModal = props => {
   
@@ -95,6 +96,7 @@ const DreamEntryModal = props => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <div className="md:mb-2 mb-6 place-self-center w-full">
                     <DesktopDatePicker label='Date' variant='outlined' className="place-self-center w-full"
+                    value={dayjs()}
                       sx={{
                         '& .MuiInputBase-input': centuryGothicFont,
                         '& .MuiInputLabel-root': centuryGothicFont,
