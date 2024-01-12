@@ -62,7 +62,7 @@ const DreamEntryModal = props => {
   return (
     <div className="flex">
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
-        <Box sx={dynamicPopupStyle2} className='bg-white rounded-md w-2/3 mt-10'
+        <Box sx={dynamicPopupStyle2} className='bg-white rounded-md w-2/3'
           style={
             isMobile || window.innerWidth <= window.innerHeight * 2
             ? dynamicPopupStyle
@@ -134,15 +134,15 @@ const DreamEntryModal = props => {
             <div className='w-full my-4'>
               <Chips items={emotions} onDelete={handleDeleteEmotion}/>
             </div>
-            <div className="pt-6 flex justify-between space-x-2">
+            <div className="pt-6 flex md:justify-between md:flex-row flex-col justify-center">
               <Button variant="outlined" onClick={() => setOpenModal(false)} color="secondary" sx={centuryGothicFont}>
                 Save as draft
               </Button>
-              <div className='space-x-2'>
-                <Button variant="outlined" onClick={() => setOpenModal(false)} color="primary" sx={centuryGothicFont}>
+              <div className='flex space-x-2 justify-between pt-2 md:pt-0'>
+                <Button variant="outlined" onClick={() => setOpenModal(false)} color="primary" sx={centuryGothicFont} className='w-1/2'>
                   Submit
                 </Button>
-                <Button variant="outlined" onClick={() => setOpenModal(false)} color="secondary" sx={centuryGothicFont}>
+                <Button variant="outlined" onClick={() => setOpenModal(false)} color="secondary" sx={centuryGothicFont} className='w-1/2'>
                   Cancel
                 </Button>
               </div>

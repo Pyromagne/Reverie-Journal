@@ -17,10 +17,10 @@ export const dynamicPopupStyle = {
 
 export const dynamicPopupStyle2 = {
   position: "absolute",
-  top: isMobile ? "48%" : "43%",
+  top: isMobile ? "50%" : "43%", // Adjust the top value as needed
   left: "50%",
-  width: "min(80%, 600px)", // Adjust the maximum width as needed (600px in this example)
-  //height: isMobile ? "90vh" : "min(82%, 90vh)", // Adjust the maximum height as needed (1500px in this example)
+  width: isMobile ? "100%" : "min(80%, 600px)", // Adjust the maximum width as needed (600px in this example)
+  height: isMobile ? "90vh" : "min(82%, 90vh)", // Adjust the maximum height as needed (1500px in this example)
   transform: "translate(-50%, -50%)",
   overflowY: "auto",
   p: 4
