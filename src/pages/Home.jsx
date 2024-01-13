@@ -3,6 +3,7 @@ import { centuryGothicFont } from '../constants';
 import EllipseButton from '../components/EllipseButton';
 import DreamEntryModal from '../components/DreamEntryModal';
 import DigitalClock from '../components/DigitalClock';
+import DreamCard from '../components/DreamCard';
 
 import { LuPlus } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
@@ -25,7 +26,7 @@ function Home() {
       </div>
       <div className='flex w-full h-dvh md:flex-row flex-col mt-20'>
         <div className='flex md:w-3/4 w-full md:mb-0 mb-4 p-5'>
-          <p className='text-2xl mb-4 text-slate-100'>No Dream Entry</p>
+          <DreamCard></DreamCard>
         </div>
         <div className='flex md:w-1/4 w-full md:mb-0 mb-4 p-5 flex-col items-center'>
           <p className='text-2xl mb-4 text-slate-100'>Dream Calendar</p>
