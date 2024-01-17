@@ -10,10 +10,38 @@ body {
   font-family: 'Century Gothic';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html{
   @apply bg-slate-700;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 10px;
+  @apply bg-slate-700;
+}
+
+::-webkit-scrollbar-track {
+ @apply bg-slate-700;
+}
+
+::-webkit-scrollbar-thumb {
+ background: white;
+ border-radius: 4px;
+ @apply bg-slate-800;
+}
+
+::-webkit-scrollbar-thumb:hover {
+ @apply bg-slate-800;
+}
+
+div > ::-webkit-scrollbar-track {
+  background: white;
+  border-radius: 4px;
 }

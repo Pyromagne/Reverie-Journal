@@ -62,7 +62,7 @@ const DreamEntryModal = props => {
   return (
     <div className="flex">
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
-        <Box sx={dynamicPopupStyle2} className='bg-white rounded-md w-2/3'
+        <Box sx={dynamicPopupStyle2} className='bg-white rounded w-2/3 flex flex-col justify-between'
           style={
             isMobile || window.innerWidth <= window.innerHeight * 2
             ? dynamicPopupStyle

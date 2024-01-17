@@ -11,7 +11,7 @@ const demoTagData = ['Demo', 'Tag', 'Data'];
 const DreamCard = () =>{
 
   return(
-    <Card variant="outlined" className="min-w-320 h-200 p-2"> 
+    <Card variant="outlined" className="min-w-320 h-200 p-2 m-2"> 
     <div className="flex justify-between">
       <p className="px-1">Title</p>
       <p className="px-1">Date</p>
