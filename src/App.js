@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import {
-  Home
+  Home,
+  SignIn
 } from "./pages";
 import './index.css';
-
 
 const App= ({ persistedState }) => {
   const [state, setState] = useState(persistedState);
