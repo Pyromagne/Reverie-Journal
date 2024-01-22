@@ -1,3 +1,5 @@
+import LoadingScreenOverlay from './components/LoadingScreenOverlay';
+
 import { React, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -22,7 +24,7 @@ const AppWrapper = () => {
   }, []);
 
   if (loading) {
-    return null; // You can replace this with a loading spinner or any other loading indicator
+    return <LoadingScreenOverlay message="Please Wait" />;
   }
 
   return <App />;
