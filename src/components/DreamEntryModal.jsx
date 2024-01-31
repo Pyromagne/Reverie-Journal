@@ -1,7 +1,7 @@
 import '../index.css';
-import { centuryGothicFont, isMobile, dps3 } from "../constants";
+import { centuryGothicFont, dps3 } from "../constants";
 import Chips from './Chips';
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { Box, Modal, TextField, Button, Divider, MenuItem} from "@mui/material";
 import { DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 
 const DreamEntryModal = props => {
   
-  const { openModal, setOpenModal} = props;
+  const {openModal, setOpenModal} = props;
   const [tagInput, setTagInput] = useState('');
   const [EmotionInput, setEmotionInput] = useState('');
   const [tags, setTags] = useState([]);
@@ -24,7 +24,8 @@ const DreamEntryModal = props => {
     const inputValue = e.target.value;
     setTagInput(inputValue);
 
-    if (inputValue.includes(' ') ) {
+    if (e.keyCode === 13 || e.keyCode === 32) {
+      e.preventDefault(); // Prevent default behavior of Enter or space in input field
       const newTag = inputValue.trim();
       if (newTag !== '') {
         setTags((prevTags) => [...prevTags, newTag]);
@@ -36,8 +37,9 @@ const DreamEntryModal = props => {
   const handleEmotionInputChange = (e) => {
     const inputValue = e.target.value;
     setEmotionInput(inputValue);
-
-    if (inputValue.includes(' ') ) {
+  
+    if (e.keyCode === 13 || e.keyCode === 32) {
+      e.preventDefault(); // Prevent default behavior of Enter or space in input field
       const newEmotion = inputValue.trim();
       if (newEmotion !== '') {
         setEmotions((prevEmotions) => [...prevEmotions, newEmotion]);
@@ -51,6 +53,7 @@ const DreamEntryModal = props => {
     newTags.splice(index, 1);
     setTags(newTags);
   };
+  
   const handleDeleteEmotion = (index) => {
     const newEmotions = [...emotions];
     newEmotions.splice(index, 1);
@@ -68,6 +71,21 @@ const DreamEntryModal = props => {
   const handleEmotionCountChange = count => {
     setEmotionCount(count);
   };
+
+  useEffect(() => {
+    const handleKeyUp = (e) => {
+      if (e.keyCode === 13 || e.keyCode === 32) {
+        handleEmotionInputChange(e);
+        handleTagInputChange(e);
+      }
+    };
+  
+    document.addEventListener('keyup', handleKeyUp);
+  
+    return () => {
+      document.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
 
   return (
     <div className="flex">
@@ -136,7 +154,7 @@ const DreamEntryModal = props => {
             <div className='w-full' style={tagCount ? {marginTop: '4px', marginBottom: '4px'} : {marginTop: '0px', marginBottom: '0px'}}>
               <Chips items={tags} onDelete={handleDeleteTag} onCountChange={handleTagCountChange}/>
             </div>
-            <div className='w-full' style={tagCount ? {marginTop: '4px', marginBottom: '4px'} : {marginTop: '0px', marginBottom: '0px'}}>
+            <div className='w-full' style={emotionCount ? {marginTop: '4px', marginBottom: '4px'} : {marginTop: '0px', marginBottom: '0px'}}>
               <Chips items={emotions} onDelete={handleDeleteEmotion} onCountChange={handleEmotionCountChange}/>
             </div>
             <div className="flex md:justify-between md:flex-row flex-col justify-center">
