@@ -1,4 +1,32 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import PrivateAuth from "./components/PrivateAuth";
+import Layout from "./components/Layout";
+
+import {
+  Home, SignIn
+} from "./pages";
+import './index.css';
+
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route path="signin" element={<SignIn />} />
+      </Route>
+
+      <Route element={<PrivateAuth />}>
+        <Route path="/home" element={<Home />} />
+      </Route>
+
+      <Route path="*" element={<SignIn />} />
+    </Routes>
+  );
+}
+
+export default App;
+
+/* import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import {
   Home,
@@ -18,14 +46,15 @@ const App= ({ persistedState }) => {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="" element={<Home />} />
+          <Route path="" element={<SignIn />} />
+          <Route path="/home" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </div>
   );
 }
 
-export default App;
+export default App; */
 
 /* import { BrowserRouter, Routes, Route } from "react-router-dom";
 
