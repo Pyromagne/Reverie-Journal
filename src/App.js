@@ -12,7 +12,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path="signin" element={<SignIn />} />
+        <Route path="/" element={<SignIn />} />
       </Route>
 
       <Route element={<PrivateAuth />}>

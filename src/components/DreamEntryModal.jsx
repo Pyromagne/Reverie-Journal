@@ -75,8 +75,14 @@ const DreamEntryModal = props => {
   useEffect(() => {
     const handleKeyUp = (e) => {
       if (e.keyCode === 13 || e.keyCode === 32) {
-        handleEmotionInputChange(e);
-        handleTagInputChange(e);
+        // Check the active input field
+        const activeInput = document.activeElement;
+  
+        if (activeInput.id === "tagInput") {
+          handleTagInputChange(e);
+        } else if (activeInput.id === "emotionInput") {
+          handleEmotionInputChange(e);
+        }
       }
     };
   
@@ -86,6 +92,7 @@ const DreamEntryModal = props => {
       document.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
+  
 
   return (
     <div className="flex">
@@ -140,12 +147,12 @@ const DreamEntryModal = props => {
                 InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}} /> 
               <div className='flex w-full mt-6'>
                 <div className='w-full md:w-1/2'>
-                  <TextField label="Add Tags" variant="standard" value={tagInput} onChange={handleTagInputChange}
+                  <TextField id='tagInput' label="Add Tags" variant="standard" value={tagInput} onChange={handleTagInputChange}
                     sx={{width: '100%'}} InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}}
                   />
                 </div>
                 <div className='w-full md:w-1/2'>
-                  <TextField label="Add Emotions" variant="standard" value={EmotionInput} onChange={handleEmotionInputChange}
+                  <TextField id='emotionInput' label="Add Emotions" variant="standard" value={EmotionInput} onChange={handleEmotionInputChange}
                     sx={{width: '100%'}} InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}}
                   />
                 </div>
