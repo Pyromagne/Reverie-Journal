@@ -1,6 +1,6 @@
 import '../index.css';
 import { centuryGothicFont, dps3 } from "../constants";
-import Chips from './Chips';
+import Chips from './Chip';
 import { React, useState, useEffect } from 'react';
 import { Box, Modal, TextField, Button, Divider, MenuItem} from "@mui/material";
 import { DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";
@@ -26,7 +26,7 @@ const DreamEntryModal = props => {
 
     if (e.keyCode === 13 || e.keyCode === 32) {
       e.preventDefault(); // Prevent default behavior of Enter or space in input field
-      const newTag = inputValue.trim();
+      const newTag = inputValue?.trim();
       if (newTag !== '') {
         setTags((prevTags) => [...prevTags, newTag]);
         setTagInput('');
@@ -40,7 +40,7 @@ const DreamEntryModal = props => {
   
     if (e.keyCode === 13 || e.keyCode === 32) {
       e.preventDefault(); // Prevent default behavior of Enter or space in input field
-      const newEmotion = inputValue.trim();
+      const newEmotion = inputValue?.trim();
       if (newEmotion !== '') {
         setEmotions((prevEmotions) => [...prevEmotions, newEmotion]);
         setEmotionInput('');
@@ -147,12 +147,12 @@ const DreamEntryModal = props => {
                 InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}} /> 
               <div className='flex w-full mt-6'>
                 <div className='w-full md:w-1/2'>
-                  <TextField id='tagInput' label="Add Tags" variant="standard" value={tagInput} onChange={handleTagInputChange}
+                  <TextField id='tagInput' label="Add Tag" variant="standard" value={tagInput} onChange={handleTagInputChange}
                     sx={{width: '100%'}} InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}}
                   />
                 </div>
                 <div className='w-full md:w-1/2'>
-                  <TextField id='emotionInput' label="Add Emotions" variant="standard" value={EmotionInput} onChange={handleEmotionInputChange}
+                  <TextField id='emotionInput' label="Add Emotion" variant="standard" value={EmotionInput} onChange={handleEmotionInputChange}
                     sx={{width: '100%'}} InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}}
                   />
                 </div>
@@ -165,7 +165,7 @@ const DreamEntryModal = props => {
               <Chips items={emotions} onDelete={handleDeleteEmotion} onCountChange={handleEmotionCountChange}/>
             </div>
             <div className="flex md:justify-between md:flex-row flex-col justify-center">
-              <Button variant="outlined" onClick={() => setOpenModal(false)} color="secondary" sx={centuryGothicFont}>
+              <Button variant="outlined" onClick={() => setOpenModal(false)} color="secondary" sx={centuryGothicFont} disabled>
                 Save as draft
               </Button>
               <div className='flex space-x-2 justify-between pt-2 md:pt-0'>

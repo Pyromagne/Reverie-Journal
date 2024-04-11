@@ -1,5 +1,5 @@
 import { centuryGothicFont } from "../constants";
-import Chips from "./Chips";
+import Chips from "./Chip";
 
 import React from "react";
 import { Card, Divider } from "@mui/material";

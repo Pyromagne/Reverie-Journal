@@ -5,6 +5,8 @@ import DreamEntryModal from '../components/DreamEntryModal';
 import DigitalClock from '../components/DigitalClock';
 import DreamCard from '../components/DreamCard';
 import useAuth from '../hooks/useAuth';
+import useSignout from '../hooks/useSignout';
+import { useNavigate } from 'react-router-dom';
 
 import { LuPlus } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
@@ -14,16 +16,30 @@ import { DesktopDatePicker, LocalizationProvider, DateCalendar} from "@mui/x-dat
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [openDreamEntryModal, setOpenDreamEntryModal] = useState(false);
   const { auth } = useAuth();
-  console.log(auth?.username);
+
+  console.log(auth);
+
+  const signout = useSignout();
+
+  const handleSignout = async () => {
+    await signout();
+    navigate('/signin');
+  }
+
   return (
     <div className='flex flex-col w-full bg-slate-700'>
       <div className='flex items-center justify-center md:justify-between w-full fixed left-0 top-0 bg-slate-800'>
-        <p className='text-slate-100 font-normal md:text-4xl text-2xl padding md:p-4 p-2'>Reverie Journal</p>
-        <div className=' p-4 hidden md:block'>
+        <div className='flex items-center justify-center md:justify-between'>
+          <p className='text-slate-100 font-normal md:text-4xl text-2xl padding md:p-4 p-2'>Reverie Journal </p>
+          <p className='text-slate-100 font-normal md:text-2xl text-2xl'>{`[${auth?.username} | ${auth?.email}]`}</p>
+        </div>
+        <div className='md:flex p-4 hidden gap-2'>
           <Button variant='outlined' color='primary' href='https://github.com/Pyromagne/Reverie-Journal' target="_blank" 
           startIcon={<SiGithub />} sx={centuryGothicFont}>Github</Button>
+          <Button variant='outlined' color='primary' onClick={handleSignout}>Sign Out</Button>
         </div>
       </div>
       <div className='flex w-full h-dvh md:flex-row flex-col-reverse mt-20'>
@@ -31,7 +47,6 @@ const Home = () => {
         <div className='flex md:w-3/4 w-full md:mb-0 mb-4 p-5'>
           <Grid container>
             <Grid item>
-              {auth?.username}
               <DreamCard></DreamCard>
             </Grid>
           </Grid>

@@ -6,7 +6,7 @@ const PrivateAuth = () => {
     const location = useLocation();
 
     return (
-        auth?.email !== undefined
+        auth?.accessToken !== undefined
             ? <Outlet />
             : <Navigate to="/signin" state={{ from: location }} replace />
     );

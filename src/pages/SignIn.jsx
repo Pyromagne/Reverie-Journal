@@ -1,18 +1,21 @@
 import { centuryGothicFont } from "../constants";
 import useAuth from "../hooks/useAuth";
 
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { Button, Box, TextField } from "@mui/material";
 import { LuEye, LuEyeOff } from "react-icons/lu";
-
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from '../api/axios';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SIGNIN_URL = '/signin';
 
 const SignIn = () => {
-  const {setAuth} = useAuth();
+  const { setAuth, persist, setPersist} = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
@@ -32,6 +35,7 @@ const SignIn = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     if (!signInFormData.Email || !signInFormData.Password) {
+      toast.error("Please fill out all fields");
       return;
     }
     try {
@@ -39,22 +43,38 @@ const SignIn = () => {
         {
           headers: {
             "Content-Type": "application/json",
-          },/* withCredentials: true */
+          },withCredentials: true
         }
       );
-      const { Username, Email } = response.data.userData;
-      setAuth({ email: Email, username: Username });
-      navigate("/home");
+      console.log(JSON.stringify(response));
+      const accessToken = response?.data?.accessToken;
+      const Username = response?.data?.Username;
+      const Email = response?.data?.Email;
+
+      setAuth({ email: Email, username: Username, accessToken });
+      
+      toast.success("Logged in successfully");
+      navigate(from, { replace: true });
+
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        
-      } else if (error.response && error.response.status === 404) {
-        
+      if (error.response && error.response.status >= 400 && error.response.status < 500) {
+        toast.error(error.response.data.message || 'An error occurred');
+      } else if (error.response && error.response.status >= 500) {
+        toast.error('Server error. Please try again later');
       } else {
-        
+        toast.error('An error occurred');
       }
     }
   }
+
+  const togglePersist = () => {
+    setPersist(prev => !prev);
+  }
+
+  useEffect(() => {
+
+    localStorage.setItem("persist", persist)
+  })
 
   return(
     <div className="flex flex-col justify-center items-center w-full h-screen">
@@ -82,7 +102,10 @@ const SignIn = () => {
               Sign In
             </Button>
           </div>
-
+          <div className="flex gap-2">
+            <input type="checkbox" id="persist" onChange={togglePersist} checked={persist}/>
+            <label htmlFor="persist">Trust This Device</label>
+          </div>
           <Button variant="text" color="primary" sx={centuryGothicFont} className='w-1/2'>
             Forgot Password?
           </Button>

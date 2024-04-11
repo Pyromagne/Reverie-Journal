@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Fab } from "@mui/material";
+import { Fab } from "@mui/material";
 
 const EllipseButton = ({name, color, isIcon=false, icon, onClick}) => {
   return (
