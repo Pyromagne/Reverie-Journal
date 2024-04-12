@@ -6,7 +6,6 @@ import { Box, Modal, TextField, Button, Divider, MenuItem} from "@mui/material";
 import { DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import {  } from '@mui/material';
 import dayjs from 'dayjs';
 
 const DreamEntryModal = props => {
@@ -39,7 +38,7 @@ const DreamEntryModal = props => {
     setEmotionInput(inputValue);
   
     if (e.keyCode === 13 || e.keyCode === 32) {
-      e.preventDefault(); // Prevent default behavior of Enter or space in input field
+      e.preventDefault();
       const newEmotion = inputValue?.trim();
       if (newEmotion !== '') {
         setEmotions((prevEmotions) => [...prevEmotions, newEmotion]);
@@ -75,7 +74,6 @@ const DreamEntryModal = props => {
   useEffect(() => {
     const handleKeyUp = (e) => {
       if (e.keyCode === 13 || e.keyCode === 32) {
-        // Check the active input field
         const activeInput = document.activeElement;
   
         if (activeInput.id === "tagInput") {

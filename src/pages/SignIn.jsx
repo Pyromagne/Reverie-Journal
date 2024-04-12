@@ -9,11 +9,8 @@ import axios from '../api/axios';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const SIGNIN_URL = '/signin';
-
 const SignIn = () => {
-  const { auth, setAuth, persist, setPersist } = useAuth();
-  console.log(auth.accessToken);
+  const { auth, setAuth, persist, setPersist, logon, setLogon } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -40,14 +37,14 @@ const SignIn = () => {
       return;
     }
     try {
-      const response = await axios.post(SIGNIN_URL, signInFormData,
+      const response = await axios.post("/signin", signInFormData,
         {
           headers: {
             "Content-Type": "application/json",
           },withCredentials: true
         }
       );
-      console.log(JSON.stringify(response));
+      
       const accessToken = response?.data?.accessToken;
       const Username = response?.data?.Username;
       const Email = response?.data?.Email;
@@ -55,6 +52,7 @@ const SignIn = () => {
       setAuth({ email: Email, username: Username, accessToken });
       
       toast.success("Logged in successfully");
+      setLogon(true);
       navigate(from, { replace: true });
 
     } catch (error) {
@@ -73,12 +71,16 @@ const SignIn = () => {
   }
 
   useEffect(() => {
-    if (auth.accessToken || persist) {
+    if (auth.accessToken && persist) {
+      navigate('/');
+    }
+
+    if (logon) {
       navigate('/');
     }
     
     localStorage.setItem("persist", persist)
-  },[auth.accessToken])
+  },[auth.accessToken, logon, persist])
 
   return(
     <div className="flex flex-col justify-center items-center w-full h-screen">
