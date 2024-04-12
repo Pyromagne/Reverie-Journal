@@ -1,6 +1,6 @@
 import { centuryGothicFont } from "../constants";
 import useAuth from "../hooks/useAuth";
-
+import useSignout from "../hooks/useSignout";
 import { React, useEffect, useState } from "react";
 import { Button, Box, TextField } from "@mui/material";
 import { LuEye, LuEyeOff } from "react-icons/lu";
@@ -70,17 +70,25 @@ const SignIn = () => {
     setPersist(prev => !prev);
   }
 
+  const signout = useSignout();
+
+  useEffect(()=>{
+    if (!persist) {
+      signout();
+    }
+  })
+
   useEffect(() => {
     if (auth.accessToken && persist) {
       navigate('/');
     }
 
-    if (logon) {
+    if (logon && persist) {
       navigate('/');
     }
     
     localStorage.setItem("persist", persist)
-  },[auth.accessToken, logon, persist])
+  },[auth.accessToken, persist])
 
   return(
     <div className="flex flex-col justify-center items-center w-full h-screen">
