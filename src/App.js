@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import PrivateAuth from "./components/PrivateAuth";
 import Layout from "./components/Layout";
+import HomeLayout from "./components/HomeLayout";
 import PersistLogin from "./components/PersistLogin";
 
 import {
@@ -17,7 +18,9 @@ function App() {
         
         <Route element={<PersistLogin />}>
           <Route element={<PrivateAuth />}>
-            <Route path="/" element={<Home />} />
+            <Route element={<HomeLayout />}>
+              <Route path="/" element={<Home />} />
+            </Route>
           </Route>
         </Route>
 

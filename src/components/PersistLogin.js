@@ -2,6 +2,7 @@ import {Outlet} from "react-router-dom";
 import { useState, useEffect } from "react";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
+import LoadingScreenOverlay from "../components/LoadingScreenOverlay";
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -15,7 +16,7 @@ const PersistLogin = () => {
             try {
                 await refresh();
             } catch (error) {
-                //console.error(error);
+                console.error(error);
             }
             finally {
                 isMounted && setIsLoading(false);
@@ -27,18 +28,13 @@ const PersistLogin = () => {
         return () => isMounted = false;
     }, [])
 
-    /* useEffect(()=>{
-        console.log(`isLoading: ${isLoading}`)
-        console.log(`aT: ${JSON.stringify(auth?.accessToken)}`)
-    }, [isLoading]) */
-
     return (
         <> 
             {
                 !persist 
                 ? <Outlet /> 
                 : isLoading 
-                    ? <p>Loading...</p> 
+                    ? <LoadingScreenOverlay />
                     : <Outlet />
             }
         </>

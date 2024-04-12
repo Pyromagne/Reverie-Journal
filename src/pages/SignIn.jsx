@@ -12,7 +12,8 @@ import "react-toastify/dist/ReactToastify.css";
 const SIGNIN_URL = '/signin';
 
 const SignIn = () => {
-  const { setAuth, persist, setPersist} = useAuth();
+  const { auth, setAuth, persist, setPersist } = useAuth();
+  console.log(auth.accessToken);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -72,9 +73,12 @@ const SignIn = () => {
   }
 
   useEffect(() => {
-
+    if (auth.accessToken || persist) {
+      navigate('/');
+    }
+    
     localStorage.setItem("persist", persist)
-  })
+  },[auth.accessToken])
 
   return(
     <div className="flex flex-col justify-center items-center w-full h-screen">
