@@ -2,11 +2,10 @@ import axios from "../api/axios";
 import useAuth from "./useAuth";
 
 const useSignout = () => {
-    const {setAuth, setLogon} = useAuth();
+    const { setAuth } = useAuth();
 
     const signout = async () => {
         setAuth({});
-        setLogon(false);
         
         try {
             const response = await axios('./signout' , {

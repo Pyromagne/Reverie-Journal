@@ -14,14 +14,21 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path="/signin" element={<SignIn />} />
         
         <Route element={<PersistLogin />}>
+
+          <Route path="/signin" element={<SignIn />}/>
+
           <Route element={<PrivateAuth />}>
+
             <Route element={<HomeLayout />}>
-              <Route path="/" element={<Home />} />
+
+              <Route path="/" element={<Home />}/>
+
             </Route>
+
           </Route>
+          
         </Route>
 
       </Route>

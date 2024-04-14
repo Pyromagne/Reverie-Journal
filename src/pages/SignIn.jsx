@@ -1,6 +1,5 @@
 import { centuryGothicFont } from "../constants";
 import useAuth from "../hooks/useAuth";
-import useSignout from "../hooks/useSignout";
 import { React, useEffect, useState } from "react";
 import { Button, Box, TextField } from "@mui/material";
 import { LuEye, LuEyeOff } from "react-icons/lu";
@@ -10,7 +9,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignIn = () => {
-  const { auth, setAuth, persist, setPersist, logon, setLogon } = useAuth();
+  const { auth, setAuth, persist, setPersist } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -52,7 +51,6 @@ const SignIn = () => {
       setAuth({ email: Email, username: Username, accessToken });
       
       toast.success("Logged in successfully");
-      setLogon(true);
       navigate(from, { replace: true });
 
     } catch (error) {
@@ -70,20 +68,8 @@ const SignIn = () => {
     setPersist(prev => !prev);
   }
 
-  const signout = useSignout();
-
-  useEffect(()=>{
-    if (!persist) {
-      signout();
-    }
-  })
-
   useEffect(() => {
-    if (auth.accessToken && persist) {
-      navigate('/');
-    }
-
-    if (logon && persist) {
+    if (auth.accessToken) {
       navigate('/');
     }
     
