@@ -7,9 +7,11 @@ import { DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from 'dayjs';
+import { toast } from "react-toastify";
+import useAuth from '../hooks/useAuth';
+import axios from '../api/axios';
 
-const DreamEntryModal = props => {
-  
+const SubmitDreamModal = props => {
   const {openModal, setOpenModal} = props;
   const [tagInput, setTagInput] = useState('');
   const [EmotionInput, setEmotionInput] = useState('');
@@ -18,13 +20,25 @@ const DreamEntryModal = props => {
   const [dreamType, setDreamType] = useState('');
   const [tagCount, setTagCount] = useState(0);
   const [emotionCount, setEmotionCount] = useState(0);
+  const {auth} = useAuth();
+
+  const [selectedDate, setSelectedDate] = useState(dayjs(null));
+  const [selectedTime, setSelectedTime] = useState(dayjs(null));
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+  
+  const handleTimeChange = (time) => {
+    setSelectedTime(time);
+  };
 
   const handleTagInputChange = (e) => {
     const inputValue = e.target.value;
     setTagInput(inputValue);
 
     if (e.keyCode === 13 || e.keyCode === 32) {
-      e.preventDefault(); // Prevent default behavior of Enter or space in input field
+      e.preventDefault();
       const newTag = inputValue?.trim();
       if (newTag !== '') {
         setTags((prevTags) => [...prevTags, newTag]);
@@ -53,7 +67,7 @@ const DreamEntryModal = props => {
     setTags(newTags);
   };
   
-  const handleDeleteEmotion = (index) => {
+  const handleDeleteEmotion = (index)   => {
     const newEmotions = [...emotions];
     newEmotions.splice(index, 1);
     setEmotions(newEmotions);
@@ -61,6 +75,7 @@ const DreamEntryModal = props => {
 
   const handleDreamTypeChange = (event) => {
     setDreamType(event.target.value);
+    setSubmitDreamFormData({ ...submitDreamFormData, Type: event.target.value });
   };
 
   const handleTagCountChange = count => {
@@ -70,6 +85,81 @@ const DreamEntryModal = props => {
   const handleEmotionCountChange = count => {
     setEmotionCount(count);
   };
+
+  const handleChange = e => {
+    const { id, value } = e.target;
+    setSubmitDreamFormData({ ...submitDreamFormData, [id]: value });
+  };
+
+  const [submitDreamFormData, setSubmitDreamFormData] = useState({
+    UserID:"",
+    Title:"",
+    Type:"",
+    Date:"",
+    Time: "",
+    Description: "",
+    Tags:[],
+    Emotions:[],
+  });
+
+  const handleSubmitDream = async e => {
+    e.preventDefault();
+    
+    console.log(submitDreamFormData);
+    if (Object.values(submitDreamFormData).some(value => !value)) {
+      toast.error("Please fill out all fields");
+      return;
+    }
+
+    if(submitDreamFormData.Tags.length === 0 || submitDreamFormData.Emotions.length === 0) return; 
+
+    
+
+    try {
+      const response = await axios.post("/submit", submitDreamFormData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },withCredentials: true
+        }
+      );
+
+      toast.success(response.data.message);
+      setOpenModal(false);
+
+    } catch (error) {
+      if (error.response && error.response.status >= 400 && error.response.status < 500) {
+        toast.error(error.response.data.message || 'An error occurred');
+      } else if (error.response && error.response.status >= 500) {
+        toast.error('Server error. Please try again later');
+      } else {
+        toast.error('An error occurred');
+      }
+    }
+  }
+
+  useEffect(() => {
+    const formattedDate = selectedDate.format('MM-DD-YYYY');
+    const formattedTime = selectedTime.format('hh:mm A');
+    console.log(formattedDate);
+    console.log(formattedTime);
+
+    setSubmitDreamFormData({ ...submitDreamFormData, Date: formattedDate, Time: formattedTime });
+
+  }, [selectedDate, selectedTime]);
+
+  useEffect(() => {
+    setSubmitDreamFormData({ ...submitDreamFormData, Tags: tags, Emotions: emotions });
+  },[tags, emotions])
+
+  useEffect(() => {
+    const setUserID = () => {
+      const id = auth.userID;
+      setSubmitDreamFormData({ ...submitDreamFormData, UserID: id });
+    }
+    
+    setUserID();
+  }, [auth])
 
   useEffect(() => {
     const handleKeyUp = (e) => {
@@ -89,8 +179,7 @@ const DreamEntryModal = props => {
     return () => {
       document.removeEventListener('keyup', handleKeyUp);
     };
-  }, []);
-  
+  });
 
   return (
     <div className="flex">
@@ -101,8 +190,8 @@ const DreamEntryModal = props => {
               <Box className="flex md:flex-row flex-col md:justify-between justify-center gap-4">
                 <div className="md:mb-0 mb-6 place-self-center w-full md:w-3/5">
                   <div className="md:mb-2 mb-6 place-self-center w-full">
-                    <TextField label='Dream Title' variant='outlined' className="place-self-center w-full"
-                      InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}} />
+                    <TextField label='Dream Title' id="Title" variant='outlined' className="place-self-center w-full"
+                      InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}} onChange={handleChange} />
                   </div>
                   <div className="md:mb-0 mb-4 place-self-center w-full">
                     <TextField
@@ -124,7 +213,8 @@ const DreamEntryModal = props => {
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <div className="md:mb-2 mb-6 place-self-center w-full">
                       <DesktopDatePicker label='Date' variant='outlined' className="place-self-center w-full"
-                      value={dayjs()}
+                      value={selectedDate}
+                      onChange={handleDateChange}
                         sx={{
                           '& .MuiInputBase-input': centuryGothicFont,
                           '& .MuiInputLabel-root': centuryGothicFont,
@@ -132,6 +222,8 @@ const DreamEntryModal = props => {
                     </div>
                     <div className="md:mb-0 mb-4 place-self-center w-full">
                       <TimePicker label="Time" variant='outlined' className="place-self-center w-full"
+                      value={selectedTime}
+                      onChange={handleTimeChange}
                       sx={{
                         '& .MuiInputBase-input': centuryGothicFont,
                         '& .MuiInputLabel-root': centuryGothicFont,
@@ -141,8 +233,8 @@ const DreamEntryModal = props => {
                 </div>
               </Box>
               <Divider sx={{margin: '15px 0px', width: '100%'}}/>
-              <TextField label='Description' variant='outlined' multiline rows={4} className="place-self-center" sx={{width: '100%'}}
-                InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}} /> 
+              <TextField label='Description' id="Description" variant='outlined' multiline rows={4} className="place-self-center" sx={{width: '100%'}}
+                InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}} onChange={handleChange} /> 
               <div className='flex w-full mt-6'>
                 <div className='w-full md:w-1/2'>
                   <TextField id='tagInput' label="Add Tag" variant="standard" value={tagInput} onChange={handleTagInputChange}
@@ -167,7 +259,7 @@ const DreamEntryModal = props => {
                 Save as draft
               </Button>
               <div className='flex space-x-2 justify-between pt-2 md:pt-0'>
-                <Button variant="outlined" onClick={() => setOpenModal(false)} color="primary" sx={centuryGothicFont} className='w-1/2'>
+                <Button variant="outlined" onClick={handleSubmitDream} color="primary" sx={centuryGothicFont} className='w-1/2'>
                   Submit
                 </Button>
                 <Button variant="outlined" onClick={() => setOpenModal(false)} color="secondary" sx={centuryGothicFont} className='w-1/2'>
@@ -181,4 +273,4 @@ const DreamEntryModal = props => {
   );
 };
 
-export default DreamEntryModal;
+export default SubmitDreamModal;

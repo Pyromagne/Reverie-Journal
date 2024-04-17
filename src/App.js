@@ -29,11 +29,11 @@ function App() {
 
           </Route>
           
+          <Route path="*" element={<SignIn />} />
         </Route>
 
       </Route>
 
-      <Route path="*" element={<SignIn />} />
     </Routes>
   );
 }
