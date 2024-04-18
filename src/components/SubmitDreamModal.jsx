@@ -1,6 +1,9 @@
-import '../index.css';
+import useAuth from '../hooks/useAuth';
+import axios from '../api/axios';
 import { centuryGothicFont, dps3 } from "../constants";
 import Chips from './Chip';
+import '../index.css';
+
 import { React, useState, useEffect } from 'react';
 import { Box, Modal, TextField, Button, Divider, MenuItem} from "@mui/material";
 import { DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";
@@ -8,30 +11,34 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from 'dayjs';
 import { toast } from "react-toastify";
-import useAuth from '../hooks/useAuth';
-import axios from '../api/axios';
+
+/////////////////////////////////////////////////////////////
 
 const SubmitDreamModal = props => {
-  const {openModal, setOpenModal} = props;
-  const [tagInput, setTagInput] = useState('');
-  const [EmotionInput, setEmotionInput] = useState('');
-  const [tags, setTags] = useState([]);
-  const [emotions, setEmotions] = useState([]);
-  const [dreamType, setDreamType] = useState('');
-  const [tagCount, setTagCount] = useState(0);
-  const [emotionCount, setEmotionCount] = useState(0);
-  const {auth} = useAuth();
 
-  const [selectedDate, setSelectedDate] = useState(dayjs(null));
-  const [selectedTime, setSelectedTime] = useState(dayjs(null));
+  const {openModal, setOpenModal} = props;
+  const { auth } = useAuth();
+
+  //DATE FIELD HANDLERS////////////////////////////////////////
+  
+  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [selectedTime, setSelectedTime] = useState("");
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
   
   const handleTimeChange = (time) => {
-    setSelectedTime(time);
+    const timeObject = dayjs(time).format("HH:mm")
+    setSelectedTime(timeObject);
   };
+
+  //TAG FIELD HANDLERS/////////////////////////////////////////
+  //TODO: CHANGE WHOLE TAG IMPLEMENTATION
+
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState('');
+  const [tagCount, setTagCount] = useState(0);
 
   const handleTagInputChange = (e) => {
     const inputValue = e.target.value;
@@ -47,6 +54,23 @@ const SubmitDreamModal = props => {
     }
   };
 
+  const handleDeleteTag = (index) => {
+    const newTags = [...tags];
+    newTags.splice(index, 1);
+    setTags(newTags);
+  };
+
+  const handleTagCountChange = count => {
+    setTagCount(count);
+  };
+
+  //EMOTION FIELD HANDLERS/////////////////////////////////////
+  //TODO: CHANGE WHOLE EMOTION IMPLEMENTATION
+
+  const [emotions, setEmotions] = useState([]);
+  const [EmotionInput, setEmotionInput] = useState('');
+  const [emotionCount, setEmotionCount] = useState(0);
+
   const handleEmotionInputChange = (e) => {
     const inputValue = e.target.value;
     setEmotionInput(inputValue);
@@ -61,62 +85,58 @@ const SubmitDreamModal = props => {
     }
   };
 
-  const handleDeleteTag = (index) => {
-    const newTags = [...tags];
-    newTags.splice(index, 1);
-    setTags(newTags);
-  };
-  
   const handleDeleteEmotion = (index)   => {
     const newEmotions = [...emotions];
     newEmotions.splice(index, 1);
     setEmotions(newEmotions);
   };
 
-  const handleDreamTypeChange = (event) => {
-    setDreamType(event.target.value);
-    setSubmitDreamFormData({ ...submitDreamFormData, Type: event.target.value });
-  };
-
-  const handleTagCountChange = count => {
-    setTagCount(count);
-  };
-
   const handleEmotionCountChange = count => {
     setEmotionCount(count);
   };
 
-  const handleChange = e => {
-    const { id, value } = e.target;
-    setSubmitDreamFormData({ ...submitDreamFormData, [id]: value });
-  };
+  /////////////////////////////////////////////////////////////
 
-  const [submitDreamFormData, setSubmitDreamFormData] = useState({
-    UserID:"",
-    Title:"",
-    Type:"",
-    Date:"",
-    Time: "",
-    Description: "",
-    Tags:[],
-    Emotions:[],
-  });
+  const [userID, setUserID] = useState(auth.userID);
+  const [title, setTitle] = useState("");
+  const [type, setType] = useState("normal");
+  const [description, setDescription] = useState("");
+
+  const cleanForm = () => {
+    setTitle("");
+    setType("normal");
+    setSelectedDate(dayjs());
+    setSelectedTime("");
+    setDescription("");
+    setTags([]);
+    setEmotions([]);
+  }
 
   const handleSubmitDream = async e => {
     e.preventDefault();
+
+    const dreamFormData  = {
+      UserID: userID,
+      Title: title,
+      Type: type,
+      Date: selectedDate.startOf("day").format("MM-DD-YYYY"),
+      Time: selectedTime,
+      Description: description,
+      Tags: tags,
+      Emotions: emotions,
+    }
     
-    console.log(submitDreamFormData);
-    if (Object.values(submitDreamFormData).some(value => !value)) {
+    //VALIDATION///////////////////////////////////////////////
+    if(Object.values(dreamFormData).some(value => !value) 
+      || dreamFormData.Tags.length === 0
+      || dreamFormData.Emotions.length === 0){
       toast.error("Please fill out all fields");
       return;
     }
-
-    if(submitDreamFormData.Tags.length === 0 || submitDreamFormData.Emotions.length === 0) return; 
-
-    
+    /////////////////////////////////////////////////////////////
 
     try {
-      const response = await axios.post("/submit", submitDreamFormData,
+      const response = await axios.post("/submit", dreamFormData,
         {
           headers: {
             "Content-Type": "application/json",
@@ -125,42 +145,25 @@ const SubmitDreamModal = props => {
       );
 
       toast.success(response.data.message);
+      cleanForm();
+      props.onSubmit();
       setOpenModal(false);
 
     } catch (error) {
       if (error.response && error.response.status >= 400 && error.response.status < 500) {
         toast.error(error.response.data.message || 'An error occurred');
-      } else if (error.response && error.response.status >= 500) {
+      }
+      else if (error.response && error.response.status >= 500) {
         toast.error('Server error. Please try again later');
-      } else {
+      }
+      else {
         toast.error('An error occurred');
       }
     }
   }
 
-  useEffect(() => {
-    const formattedDate = selectedDate.format('MM-DD-YYYY');
-    const formattedTime = selectedTime.format('hh:mm A');
-    console.log(formattedDate);
-    console.log(formattedTime);
-
-    setSubmitDreamFormData({ ...submitDreamFormData, Date: formattedDate, Time: formattedTime });
-
-  }, [selectedDate, selectedTime]);
-
-  useEffect(() => {
-    setSubmitDreamFormData({ ...submitDreamFormData, Tags: tags, Emotions: emotions });
-  },[tags, emotions])
-
-  useEffect(() => {
-    const setUserID = () => {
-      const id = auth.userID;
-      setSubmitDreamFormData({ ...submitDreamFormData, UserID: id });
-    }
-    
-    setUserID();
-  }, [auth])
-
+  /////////////////////////////////////////////////////////////
+  //FOR TAG AND EMOTION FIELD//////////////////////////////////
   useEffect(() => {
     const handleKeyUp = (e) => {
       if (e.keyCode === 13 || e.keyCode === 32) {
@@ -180,6 +183,8 @@ const SubmitDreamModal = props => {
       document.removeEventListener('keyup', handleKeyUp);
     };
   });
+  /////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////
 
   return (
     <div className="flex">
@@ -191,13 +196,13 @@ const SubmitDreamModal = props => {
                 <div className="md:mb-0 mb-6 place-self-center w-full md:w-3/5">
                   <div className="md:mb-2 mb-6 place-self-center w-full">
                     <TextField label='Dream Title' id="Title" variant='outlined' className="place-self-center w-full"
-                      InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}} onChange={handleChange} />
+                      InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}} onChange={(e) => setTitle(e.target.value)} />
                   </div>
                   <div className="md:mb-0 mb-4 place-self-center w-full">
                     <TextField
                       label="Type"
-                      value={dreamType}
-                      onChange={handleDreamTypeChange}
+                      value={type}
+                      onChange={(e) => setType(e.target.value)}
                       className="place-self-center w-full"
                       InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}}
                       select
@@ -222,7 +227,6 @@ const SubmitDreamModal = props => {
                     </div>
                     <div className="md:mb-0 mb-4 place-self-center w-full">
                       <TimePicker label="Time" variant='outlined' className="place-self-center w-full"
-                      value={selectedTime}
                       onChange={handleTimeChange}
                       sx={{
                         '& .MuiInputBase-input': centuryGothicFont,
@@ -234,7 +238,7 @@ const SubmitDreamModal = props => {
               </Box>
               <Divider sx={{margin: '15px 0px', width: '100%'}}/>
               <TextField label='Description' id="Description" variant='outlined' multiline rows={4} className="place-self-center" sx={{width: '100%'}}
-                InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}} onChange={handleChange} /> 
+                InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}} onChange={(e) => setDescription(e.target.value)} /> 
               <div className='flex w-full mt-6'>
                 <div className='w-full md:w-1/2'>
                   <TextField id='tagInput' label="Add Tag" variant="standard" value={tagInput} onChange={handleTagInputChange}

@@ -23,15 +23,15 @@ const Home = () => {
     try {
       const response = await axios.get(`/fetch/${currentUserID}`,{withCredentials: true});
       setDreams(response.data);
-      toast.success('Fetch Succesfully');
     } catch (error) {
       toast.error('Error fetching dreams:', error);
     }
   };
+
   useEffect(() => {
-    console.log(dreams);
     fetchDreams();
-  }, [openSubmitDreamModal]);
+    toast.success('Fetch Succesfully');
+  }, []);
 
   return (
     <div className='flex flex-1 flex-col w-full'>
@@ -62,6 +62,7 @@ const Home = () => {
         <SubmitDreamModal 
           openModal={openSubmitDreamModal}
           setOpenModal={setOpenSubmitDreamModal}
+          onSubmit={fetchDreams}
         />
       </div>
 
