@@ -36,7 +36,7 @@ const Home = () => {
   return (
     <div className='flex flex-1 flex-col w-full'>
       <div className='flex flex-1 w-full md:flex-row flex-col-reverse'>
-        <div className='flex flex-col p-4 w-3/4 bg-gray-400 rounded-md m-2'>
+        <div className='flex flex-col p-4 sm:w-full md:w-1/2 lg:w-1/2 xl:w-3/4 bg-gray-400 rounded-md m-2'>
           {dreams.length === 0
           ? <p className='text-black text-center text-4xl'>No Dream found</p>
           : <Masonry 
@@ -48,7 +48,7 @@ const Home = () => {
           />
           }
         </div>
-        <div className='flex flex-col p-4 fixed right-0'>
+        <div className='flex flex-col p-4 items-center bg-gray-400 sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/4 m-2 rounded'>
           <p className='text-2xl mb-4'>Dream Calendar</p>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateCalendar className='bg-slate-100 rounded' readOnly/>
@@ -66,7 +66,7 @@ const Home = () => {
         />
       </div>
 
-      <span className='fixed z-10 bottom-5 right-5 md:bottom-10 md:right-10 md:hidden block'>
+      <span className='fixed z-10 bottom-5 right-5 md:bottom-10 md:right-10 sm:hidden block'>
         <EllipseButton name='Add' color='primary' isIcon={true} icon={<LuPlus size={28} />} 
           onClick={() => { setOpenSubmitDreamModal(true); }}
         />
