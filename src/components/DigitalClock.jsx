@@ -20,7 +20,7 @@ const DigitalClock = () => {
   };
 
   return (
-    <Typography variant="h4" align="center" className='text-slate-100' sx={centuryGothicFont}>
+    <Typography variant="h4" align="center" className='text-black' sx={centuryGothicFont}>
       {formattedTime(currentTime)}
     </Typography>
   );

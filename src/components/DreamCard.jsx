@@ -1,28 +1,33 @@
-import { centuryGothicFont } from "../constants";
-import Chips from "./Chip";
-
 import React from "react";
 import { Card, Divider } from "@mui/material";
-import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
+import Chips from "./Chip";
 
-const demoTagData = ['Demo', 'Tag', 'Data'];
+const truncateDescription = (description, length=200) => {
+  return description.length > length ? description.substring(0, length) + '...' : description;
+};
 
-const DreamCard = () =>{
-
-  return(
-    <Card variant="outlined" className="min-w-320 h-200 p-2 m-2"> 
+export const inDreamCard = ({ data: { Title, Date, Description, Tags, Emotions } }) => (
+  <Card variant="outlined" className="max-w-full h-auto p-2 m-2 shadow-md">
     <div className="flex justify-between">
-      <p className="px-1">Title</p>
-      <p className="px-1">Date</p>
+      <p className="px-1">{Title}</p>
+      <p className="px-1">{Date}</p>
     </div>
-    <Divider className="py-1"></Divider>
-    <div className="p-1 h-3/4 flex flex-col justify-between items-center">
-      <p className="p-1">Description</p>
-      <Chips items={demoTagData} readOnly={true}></Chips>
+    <Divider className="py-1" />
+    <div className="flex flex-col">
+      <p className="p-1 text-justify">{truncateDescription(Description, 275)}</p>
+      <div className="flex">
+        <Chips items={Tags} readOnly={true}></Chips>
+        <Chips items={Emotions} readOnly={true}></Chips>
+      </div>
     </div>
-    </Card>
-  )
-}
+  </Card>
+);
+
+export const DreamCard = ({ dream }) => {
+  const { Title, Date, Description, Tags, Emotions } = dream;
+  const truncDesc = truncateDescription(Description, 275);
+
+  return inDreamCard({ data: { Title, Date, Description: truncDesc, Tags, Emotions } });
+};
 
 export default DreamCard;

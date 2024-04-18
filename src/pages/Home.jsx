@@ -1,52 +1,74 @@
 import '../index.css';
 import EllipseButton from '../components/EllipseButton';
-import DreamEntryModal from '../components/DreamEntryModal';
+import SubmitDreamModal from '../components/SubmitDreamModal';
 import DigitalClock from '../components/DigitalClock';
-import DreamCard from '../components/DreamCard';
-import useAuth from '../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
-
+import { inDreamCard } from '../components/DreamCard';
 import { LuPlus } from "react-icons/lu";
-import { useState } from 'react';
-import { Grid } from '@mui/material';
-import { DesktopDatePicker, LocalizationProvider, DateCalendar} from "@mui/x-date-pickers";
+import { React, useState, useEffect } from 'react';
+import { Button } from '@mui/material';
+import { LocalizationProvider, DateCalendar} from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import useAuth from '../hooks/useAuth';
+import axios from '../api/axios';
+import { toast } from "react-toastify";
+import { Masonry } from 'masonic';
 
 const Home = () => {
-  const navigate = useNavigate();
-  const [openDreamEntryModal, setOpenDreamEntryModal] = useState(false);
-  const { auth } = useAuth();
+  const [openSubmitDreamModal, setOpenSubmitDreamModal] = useState(false);
+  const [dreams, setDreams] = useState([]);
+  const {auth} = useAuth();
+  const currentUserID = auth.userID;
+
+  const fetchDreams = async () => {
+    try {
+      const response = await axios.get(`/fetch/${currentUserID}`,{withCredentials: true});
+      setDreams(response.data);
+    } catch (error) {
+      toast.error('Error fetching dreams:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDreams();
+    toast.success('Fetch Succesfully');
+  }, []);
 
   return (
-    <div className='flex flex-col w-full bg-slate-700'>
-      <div className='flex w-full h-dvh md:flex-row flex-col-reverse mt-20'>
-        {/* <div className='flex md:w-3/4 w-full md:mb-0 mb-4 p-5 overflow-scroll justify-center flex-wrap'> */}
-        <div className='flex md:w-3/4 w-full md:mb-0 mb-4 p-5'>
-          <Grid container>
-            <Grid item>
-              <DreamCard></DreamCard>
-            </Grid>
-          </Grid>
+    <div className='flex flex-1 flex-col w-full'>
+      <div className='flex flex-1 w-full md:flex-row flex-col-reverse'>
+        <div className='flex flex-col p-4 w-3/4 bg-gray-400 rounded-md m-2'>
+          {dreams.length === 0
+          ? <p className='text-black text-center text-4xl'>No Dream found</p>
+          : <Masonry 
+            items={dreams}
+            columnGutter={8}
+            columnWidth={300}
+            overscanBy={5}
+            render={inDreamCard}
+          />
+          }
         </div>
-        <div className='flex md:w-1/4 w-full md:mb-0 mb-4 p-5 flex-col items-center justify-center md:justify-start'>
-          <p className='text-2xl mb-4 text-slate-100'>Dream Calendar</p>
+        <div className='flex flex-col p-4 fixed right-0'>
+          <p className='text-2xl mb-4'>Dream Calendar</p>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateCalendar className='bg-slate-100 rounded' readOnly/>
             <span className='m-4'><DigitalClock /></span>
           </LocalizationProvider>
-          {/* <Button variant='outlined' color='primary' className='w-1/2' sx={centuryGothicFont} style={{ marginTop: '20px' }}>Analysis</Button> */}
+          <Button variant='outlined' color='primary' onClick={() => { setOpenSubmitDreamModal(true); }}>Add Dream</Button>
         </div>
       </div>
       
       <div>
-        <DreamEntryModal 
-          openModal={openDreamEntryModal}
-          setOpenModal={setOpenDreamEntryModal}
+        <SubmitDreamModal 
+          openModal={openSubmitDreamModal}
+          setOpenModal={setOpenSubmitDreamModal}
+          onSubmit={fetchDreams}
         />
       </div>
-      <span className='fixed z-10 bottom-5 right-5 md:bottom-10 md:right-10'>
+
+      <span className='fixed z-10 bottom-5 right-5 md:bottom-10 md:right-10 md:hidden block'>
         <EllipseButton name='Add' color='primary' isIcon={true} icon={<LuPlus size={28} />} 
-          onClick={() => { setOpenDreamEntryModal(true); }}
+          onClick={() => { setOpenSubmitDreamModal(true); }}
         />
       </span>
     </div>

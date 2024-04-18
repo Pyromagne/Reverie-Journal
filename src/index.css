@@ -9,15 +9,16 @@
 *{
   font-family: 'Century Gothic';
 }
+
+/* html{
+  overflow: hidden;
+} */
+
 body {
   margin: 0;
   font-family: 'Century Gothic';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-html{
-  @apply bg-slate-700;
 }
 
 code {
