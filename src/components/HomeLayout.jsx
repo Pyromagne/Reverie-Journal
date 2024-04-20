@@ -4,7 +4,6 @@ import {Outlet} from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useSignout from '../hooks/useSignout';
 import {Button} from "@mui/material";
-import { SiGithub } from "react-icons/si";
 import { useNavigate } from 'react-router-dom';
 import useLocalContext from "../hooks/useLocalContext";
 
@@ -29,8 +28,6 @@ const HomeLayout = () => {
           <p className=' font-normal md:text-2xl text-2xl'>{`[${auth?.username} | ${auth?.email}]`}</p>
         </div>
         <div className='md:flex p-4 hidden gap-2'>
-          <Button variant='outlined' color='primary' href='https://github.com/Pyromagne/Reverie-Journal' target="_blank" 
-          startIcon={<SiGithub />} sx={centuryGothicFont}>Github</Button>
           <Button variant='outlined' color='primary' onClick={handleSignout}>Sign Out</Button>
         </div>
       </div>

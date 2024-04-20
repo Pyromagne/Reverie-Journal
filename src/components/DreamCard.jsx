@@ -12,7 +12,7 @@ const formatDate = date => {
 }
 
 export const inDreamCard = ({ data: { Title, Date, Description, Tags, Emotions } }) => (
-  <Card variant="outlined" className="max-w-full h-auto p-2 m-2 shadow-md">
+  <Card variant="outlined" className="max-w-full h-auto p-2 m-2 shadow-md cursor-pointer hover:shadow-2xl">
     <div className="flex justify-between">
       <p className="px-1">{Title}</p>
       <p className="px-1">{formatDate(Date)}</p>
@@ -28,12 +28,16 @@ export const inDreamCard = ({ data: { Title, Date, Description, Tags, Emotions }
   </Card>
 );
 
-export const DreamCard = ({ dream }) => {
+export const DreamCard = ({ dream, onCardClick }) => {
   const { Title, Date, Description, Tags, Emotions } = dream;
   const truncDesc = truncateDescription(Description, 275);
   const formattedDate = formatDate(Date);
 
-  return inDreamCard({ data: { Title, Date: formattedDate, Description: truncDesc, Tags, Emotions } });
+  return (
+    <div onClick={onCardClick}>
+      {inDreamCard({ data: { Title: Title, Date: formattedDate, Description: truncDesc, Tags: Tags, Emotions: Emotions } })}
+    </div>
+  )
 };
 
 export default DreamCard;
