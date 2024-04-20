@@ -45,8 +45,8 @@ const SignIn = () => {
   //FORM DATA//////////////////////////////////////////////////
 
   const [signInFormData, setSignInFormData] = useState({
-    Email: "",
-    Password: "",
+    email: "",
+    password: "",
   });
 
   const handleSignInSubmission = async e => {
@@ -54,7 +54,7 @@ const SignIn = () => {
     e.preventDefault();
 
     //VALIDATION///////////////////////////////////////////////
-    if (!signInFormData.Email || !signInFormData.Password) {
+    if (!signInFormData.email || !signInFormData.password) {
       toast.error("Please fill out all fields");
       return;
     }
@@ -70,8 +70,8 @@ const SignIn = () => {
       );
       
       const accessToken = response?.data?.accessToken;
-      const username = response?.data?.Username;
-      const email = response?.data?.Email;
+      const username = response?.data?.username;
+      const email = response?.data?.email;
       const userID = response?.data?.userID;
 
       setAuth({ email: email, username: username, userID: userID, accessToken });
@@ -109,11 +109,11 @@ const SignIn = () => {
           <form onSubmit={handleSignInSubmission} className="flex justify-center p-4 rounded md:w-1/3 w-4/5 bg-slate-300">
             <Box className="flex flex-col justify-around gap-4 w-full p-4">
               <p className="text-slate-700 text-2xl">Sign In</p>
-              <TextField label='Email' id="Email" variant='outlined' className="place-self-center w-full" value={signInFormData.Email} onChange={handleChange}
+              <TextField label='Email' id="email" type="email" variant='outlined' className="place-self-center w-full" value={signInFormData.email} onChange={handleChange}
               InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}} />
 
               <div className="relative">
-                <TextField label='Password' id="Password" type={showPassword ? "text" : "password"} variant='outlined' className="place-self-center w-full" value={signInFormData.Password} onChange={handleChange}
+                <TextField label='Password' id="password" type={showPassword ? "text" : "password"} variant='outlined' className="place-self-center w-full" value={signInFormData.password} onChange={handleChange}
                 InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}} />
                 <div className="absolute inset-y-0 right-2 flex items-center pr-2 cursor-pointer text-slate-400 "onClick={togglePasswordVisibility}>
                   {showPassword ? <LuEye size={23} /> : <LuEyeOff size={23} />}

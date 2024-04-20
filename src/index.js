@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { AuthProvider } from './providers/AuthProvider';
+import { ContextProvider } from './providers/ContextProvider';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 
@@ -22,11 +23,13 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ToastContainer {...toastStyle} />
-      <AuthProvider>
-        <Routes>
-          <Route path='/*' element={<App />} />
-        </Routes>
-      </AuthProvider>
+      <ContextProvider>
+        <AuthProvider>
+          <Routes>
+            <Route path='/*' element={<App />} />
+          </Routes>
+        </AuthProvider>
+      </ContextProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

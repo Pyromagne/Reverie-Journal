@@ -4,11 +4,12 @@ import {Outlet} from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useSignout from '../hooks/useSignout';
 import {Button} from "@mui/material";
-import { SiGithub } from "react-icons/si";
 import { useNavigate } from 'react-router-dom';
+import useLocalContext from "../hooks/useLocalContext";
 
 const HomeLayout = () => {
   const { auth } = useAuth();
+  const { modal } = useLocalContext();
   const navigate = useNavigate();
 
   const signout = useSignout();
@@ -20,15 +21,13 @@ const HomeLayout = () => {
   }
 
   return(
-    <div className="homeLayout flex flex-col h-screen">
+    <div className={`homeLayout flex flex-col h-screen ${modal? 'blur-sm': 'blur-none'}`}>
       <div className='flex items-center justify-center md:justify-between w-full fixed bg-white z-10'>
         <div className='flex items-center justify-center md:justify-between'>
           <p className='font-normal md:text-4xl text-2xl padding md:p-4 p-2'>Reverie Journal </p>
           <p className=' font-normal md:text-2xl text-2xl'>{`[${auth?.username} | ${auth?.email}]`}</p>
         </div>
         <div className='md:flex p-4 hidden gap-2'>
-          <Button variant='outlined' color='primary' href='https://github.com/Pyromagne/Reverie-Journal' target="_blank" 
-          startIcon={<SiGithub />} sx={centuryGothicFont}>Github</Button>
           <Button variant='outlined' color='primary' onClick={handleSignout}>Sign Out</Button>
         </div>
       </div>
