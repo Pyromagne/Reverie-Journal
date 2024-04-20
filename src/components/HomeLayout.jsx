@@ -6,9 +6,11 @@ import useSignout from '../hooks/useSignout';
 import {Button} from "@mui/material";
 import { SiGithub } from "react-icons/si";
 import { useNavigate } from 'react-router-dom';
+import useLocalContext from "../hooks/useLocalContext";
 
 const HomeLayout = () => {
   const { auth } = useAuth();
+  const { modal } = useLocalContext();
   const navigate = useNavigate();
 
   const signout = useSignout();
@@ -20,7 +22,7 @@ const HomeLayout = () => {
   }
 
   return(
-    <div className="homeLayout flex flex-col h-screen">
+    <div className={`homeLayout flex flex-col h-screen ${modal? 'blur-sm': 'blur-none'}`}>
       <div className='flex items-center justify-center md:justify-between w-full fixed bg-white z-10'>
         <div className='flex items-center justify-center md:justify-between'>
           <p className='font-normal md:text-4xl text-2xl padding md:p-4 p-2'>Reverie Journal </p>
