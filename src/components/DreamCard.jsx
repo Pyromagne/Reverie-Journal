@@ -32,7 +32,7 @@ export const DreamCard2 = ({dream, onCardClick}) => {
   const { Title, Date, Description, Tags, Emotions } = dream;
 
   return (
-    <div onClick={onCardClick} className='w-full bg-white rounded-md shadow-md h-auto p-2'>
+    <Card variant="outlined" onClick={onCardClick} className='w-full bg-white rounded-md shadow-md h-auto p-2 cursor-pointer hover:shadow-2xl'>
       <div className="flex justify-between">
         <p>{Title}</p>
         <p className="px-1">{formatDate(Date)}</p>
@@ -41,7 +41,7 @@ export const DreamCard2 = ({dream, onCardClick}) => {
       <p className="p-1 text-justify">{truncateDescription(Description, 275)}</p>
       <Chips items={Tags} readOnly={true}></Chips>
       <Chips items={Emotions} readOnly={true}></Chips>
-    </div>
+    </Card>
   )
 }
 

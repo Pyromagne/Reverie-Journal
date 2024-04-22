@@ -75,13 +75,14 @@ const Home = () => {
           }
 
         </div>
-        <div className='flex flex-col p-4 items-center bg-gray-600 sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/4 m-2 rounded fixed right-0'>
+        <div className='flex flex-col p-4 items-center bg-gray-600 sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/4 m-2 rounded fixed right-0 gap-4'>
           <p className='text-2xl mb-4'>Dream Calendar</p>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateCalendar className='bg-slate-100 rounded' readOnly/>
             <span className='m-4'><DigitalClock /></span>
           </LocalizationProvider>
           <Button variant='outlined' color='primary' onClick={() => { setOpenSubmitDreamModal(true);setModal(true) }}>Add Dream</Button>
+          <Button variant='outlined' color='primary'> Dream Board </Button>
         </div>
       </div>
       
