@@ -2,7 +2,7 @@ import '../index.css';
 import EllipseButton from '../components/EllipseButton';
 import SubmitDreamModal from '../components/SubmitDreamModal';
 import DigitalClock from '../components/DigitalClock';
-import { DreamCard } from '../components/DreamCard';
+import { DreamCard, DreamCard2 } from '../components/DreamCard';
 import { LuPlus } from "react-icons/lu";
 import { React, useState, useEffect } from 'react';
 import { Button } from '@mui/material';
@@ -49,8 +49,10 @@ const Home = () => {
   return (
     <div className='flex flex-1 flex-col w-full'>
       <div className='flex flex-1 w-full md:flex-row flex-col-reverse'>
-        <div className='flex flex-col p-4 sm:w-full md:w-1/2 lg:w-1/2 xl:w-3/4 bg-gray-400 rounded-md m-2'>
-          {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`}/>:
+        <div className='flex flex-col p-4 sm:w-full md:w-47p lg:w-48p xl:w-73p bg-gray-400 rounded-md m-2 gap-4'>
+
+          {/* MAYBE PASSING KEY IN DREAMCARD AS PROPS OR PARAM WILL SOLVE WEAKMAP ERROR */}
+          {/* {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`}/>:
           dreams.length === 0
           ? <p className='text-black text-center text-4xl'>No Dream found</p>
           : <Masonry 
@@ -62,9 +64,18 @@ const Home = () => {
                 <DreamCard key={index} dream={dream} onclose={closeModal} onCardClick={() => {setOpenViewDreamModal(true);setModal(true);setSelectedDream(dream) }}/>
               )}
             />
+          } */}
+
+          {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`}/>:
+            dreams.length === 0
+              ? <p className='text-black text-center text-4xl'>No Dream found</p>
+              : dreams.map((dream, index)=>(
+                  <DreamCard2 key={index} dream={dream} onCardClick={() => {setOpenViewDreamModal(true);setModal(true);setSelectedDream(dream) }}/>
+                ))
           }
+
         </div>
-        <div className='flex flex-col p-4 items-center bg-gray-400 sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/4 m-2 rounded'>
+        <div className='flex flex-col p-4 items-center bg-gray-600 sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/4 m-2 rounded fixed right-0'>
           <p className='text-2xl mb-4'>Dream Calendar</p>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateCalendar className='bg-slate-100 rounded' readOnly/>
@@ -84,6 +95,7 @@ const Home = () => {
           openModal={openViewDreamModal}
           setOpenModal={setOpenViewDreamModal}
           dream={selectedDream}
+          onDelete={fetchDreams}
         />
       </div>
 

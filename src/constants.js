@@ -31,7 +31,8 @@ export const dps3 = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  overflowY: "auto",
+  overflowY: "scroll",
+  scrollbarWidth: "none",
   p: 4,
   width: isMobile ? "100%" : "min(80%, 600px)", // Adjust the maximum width as needed (600px in this example)
   height: isMobile ? "90vh" : "min(82%, 90vh)", // Adjust the maximum height as needed (1500px in this example)

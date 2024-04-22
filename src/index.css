@@ -3,16 +3,16 @@
 @tailwind utilities;
 
 /* *{
-  outline: red 1px solid;
+  outline: navy 1px solid;
 } */
 
 *{
   font-family: 'Century Gothic';
 }
 
-/* html{
-  overflow: hidden;
-} */
+html{
+  overflow-y: scroll !important;
+}
 
 body {
   margin: 0;

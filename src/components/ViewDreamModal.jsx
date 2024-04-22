@@ -2,10 +2,14 @@ import useAuth from "../hooks/useAuth";
 import useLocalContext from "../hooks/useLocalContext";
 import { dps3 } from "../constants";
 import Chips from "./Chip";
+import axios from "../api/axios";
 
 import React from "react";
-import { Divider, Modal, Box } from "@mui/material";
+import { Button, Divider, Modal, Box } from "@mui/material";
+import { LuTrash2 } from "react-icons/lu";
 import dayjs from "dayjs";
+import { toast } from "react-toastify";
+
 
 const formatDate = date => {
   return dayjs(date).format('MM-DD-YYYY');
@@ -21,6 +25,18 @@ const ViewDreamModal = props => {
   const { dream } = props;
   const { openModal, setOpenModal } = props;
   const {setModal} = useLocalContext();
+
+  const deleteDream = async (id) => {
+    try {
+      const response = await axios.delete(`/delete/${id}`,{withCredentials: true});
+      toast.success("Dream deleted successfully");
+      props.onDelete();
+      setOpenModal(false);
+      setModal(false);
+    } catch (error) {
+      toast.error('Error deleting dream:', error);
+    }
+  }
 
   if (!dream) {
     return null;
@@ -42,10 +58,15 @@ const ViewDreamModal = props => {
               <p className="text-justify">{dream.Description}</p>
             </div>
           </div>
-        <div className="flex">
-          <Chips items={dream.Tags} readOnly />
-          <Chips items={dream.Emotions} readOnly />
-        </div>
+          <div className="flex w-full justify-between">
+            <div className="flex items-center">
+              <Chips items={dream.Tags} readOnly />
+              <Chips items={dream.Emotions} readOnly />
+            </div>
+            <div className="place-self-end">
+              <Button onClick={()=>{deleteDream(dream._id)}} color="error"><LuTrash2 size={24}/></Button>
+            </div>
+          </div>
       </Box>
     </Modal>
   )

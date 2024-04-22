@@ -21,8 +21,11 @@ const HomeLayout = () => {
   }
 
   return(
-    <div className={`homeLayout flex flex-col h-screen ${modal? 'blur-sm': 'blur-none'}`}>
-      <div className='flex items-center justify-center md:justify-between w-full fixed bg-white z-10'>
+    <div className={`homeLayout flex flex-col h-screen`}>
+    {/* TEMPORARY REMOVED : BLUR EFFECT CANCEL FIXED ELEMENT */}
+    {/* <div className={`homeLayout flex flex-col h-screen ${modal? 'blur-sm': 'blur-none'}`}> */}
+
+      <div className='flex items-center justify-center md:justify-between w-full fixed bg-white pb-4 z-50'>
         <div className='flex items-center justify-center md:justify-between'>
           <p className='font-normal md:text-4xl text-2xl padding md:p-4 p-2'>Reverie Journal </p>
           <p className=' font-normal md:text-2xl text-2xl'>{`[${auth?.username} | ${auth?.email}]`}</p>
