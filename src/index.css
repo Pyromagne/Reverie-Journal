@@ -7,7 +7,7 @@
 } */
 
 * {
-  /* @apply duration-200; */
+  @apply duration-200;
   font-family: 'Century Gothic';
 }
 

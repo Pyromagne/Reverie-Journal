@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import LoadingScreenOverlay from "../components/LoadingScreenOverlay";
-import { Masonry } from 'masonic';
 import DreamCard from "../components/DreamCard";
 import useLocalContext from "../hooks/useLocalContext";
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
 import { toast } from "react-toastify";
 import ViewDreamModal from "../components/ViewDreamModal";
+import Masonry from '@mui/lab/Masonry';
 
 
 const DreamBoard = () => {
@@ -37,6 +37,8 @@ const DreamBoard = () => {
     /* toast.success('Fetch Succesfully'); */
   }, []);
 
+  const heights = [150, 30, 90, 70, 110, 150, 130, 80, 50, 90, 100, 150, 30, 50, 80];
+
   return (
     <div className="flex flex-1 flex-col w-full overflow-auto">
       <div className='flex flex-1 w-full md:flex-row flex-col-reverse'>
@@ -45,15 +47,12 @@ const DreamBoard = () => {
           {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`} /> :
             dreams.length === 0
               ? <p className='text-black text-center text-4xl'>No Dream found</p>
-              : <Masonry
-                items={dreams}
-                columnGutter={8}
-                columnWidth={300}
-                overscanBy={5}
-                render={({ index, data: dream }) => (
+              :
+              <Masonry columns={3} spacing={1}>
+                {dreams.map((dream, index) => (
                   <DreamCard key={index} dream={dream} onclose={closeModal} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
-                )}
-              />
+                ))}
+              </Masonry>
           }
         </div>
       </div>
@@ -64,7 +63,7 @@ const DreamBoard = () => {
           setOpenModal={setOpenViewDreamModal}
           dream={selectedDream}
           onDelete={fetchDreams}
-          delete={false}
+          delete={true}
         />
       </div>
     </div>

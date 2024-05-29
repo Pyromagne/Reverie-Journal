@@ -8,13 +8,14 @@ import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import { useNavigate } from "react-router-dom";
 import { LuHome } from "react-icons/lu";
-
+import useLocalContext from "../hooks/useLocalContext";
 
 const Sidebar = () => {
   const [anchor, setAnchor] = useState(null);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const { auth } = useAuth();
   const navigate = useNavigate();
+  const { isMiniSidebar } = useLocalContext();
 
   const [placement, setPlacement] = useState("bottom-end");
   const open = Boolean(anchor);
@@ -41,37 +42,45 @@ const Sidebar = () => {
     },
   ]
 
-  return (
-    <aside className="g-outline flex flex-col bg-white w-52 rounded-xl mx-3 my-2 shadow-lg items-center py-4 px-2">
-      <div className="flex w-full items-center justify-between mb-2">
-        <p>Reverie Journal</p>
-        <span className="hover:cursor-pointer select-none" onClick={handleProfileMenuClick}><LuMenu size={24} /></span>
-      </div>
+  useEffect(() => {
+    if (isMiniSidebar) {
+      setPlacement('right-start');
+    } else setPlacement('bottom-end');
+  }, [isMiniSidebar]);
 
+  return (
+    <aside className={`g-outline flex flex-col bg-white ${isMiniSidebar ? 'w-16' : 'w-52'} rounded-xl mx-3 my-2 shadow-lg items-center py-4 px-2`}>
       <div className="w-full flex flex-col items-center">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-gka0l1ZzNvolZQoaOUCZLAegXtk_mom0DA&s" alt="profile" className="rounded-full w-32 h-32" />
-        <div className="w-full">
-          <p className="text-center my-2 text-ellipsis overflow-hidden">{auth.username}</p>
+        <div className={`flex w-full items-center ${isMiniSidebar ? 'justify-center' : 'justify-between'} mb-2`}>
+          {
+            isMiniSidebar ? <></> : <p>Reverie&nbsp;Journal</p>
+          }
+          <span className="hover:cursor-pointer select-none" onClick={handleProfileMenuClick}><LuMenu size={24} /></span>
+        </div>
+        <div className="w-full flex flex-col items-center">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-gka0l1ZzNvolZQoaOUCZLAegXtk_mom0DA&s" alt="profile" className={`rounded-full w-32`} />
+          <div className="w-full my-2">
+            {
+              isMiniSidebar ? <></> : <p className="text-center text-ellipsis overflow-hidden">{auth.username}</p>
+            }
+          </div>
+        </div>
+        <Divider className="w-11/12" />
+        <div className="w-full flex flex-col items-center gap-1 mt-2">
+          {actions.map((button, index) => {
+            return (
+              <button key={index} onClick={button.action} className="hover:bg-gray-200 rounded py-1 w-11/12">
+                <div className={`flex items-center gap-2 p-2 ${isMiniSidebar ? 'justify-center' : 'justify-start'}`}>
+                  {button.icon}
+                  {
+                    isMiniSidebar ? <></> : <p>{button.name}</p>
+                  }
+                </div>
+              </button>
+            )
+          })}
         </div>
       </div>
-
-      <Divider className="w-4/5" />
-
-      <div className="w-full flex flex-col items-center gap-1 mt-2">
-        {actions.map((button, index) => {
-          return (
-            <button key={index} onClick={button.action} className="hover:bg-gray-200 rounded py-1 w-11/12">
-              <div className="flex items-center gap-2 p-2">
-                {button.icon}
-                <p className="">
-                  {button.name}
-                </p>
-              </div>
-            </button>
-          )
-        })}
-      </div>
-
       {isProfileMenuOpen &&
         <ClickAwayListener onClickAway={handleClose}>
           <BasePopup

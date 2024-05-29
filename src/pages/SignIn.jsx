@@ -2,7 +2,6 @@ import useAuth from "../hooks/useAuth";
 import axios from '../api/axios';
 import { centuryGothicFont } from "../constants";
 import "react-toastify/dist/ReactToastify.css";
-
 import { React, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { LuEye, LuEyeOff } from "react-icons/lu";

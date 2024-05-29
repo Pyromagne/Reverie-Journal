@@ -6,7 +6,6 @@ import { React, useState, useEffect } from 'react';
 import useAuth from '../hooks/useAuth';
 import axios from '../api/axios';
 import { toast } from "react-toastify";
-import { Masonry } from 'masonic';
 import useLocalContext from '../hooks/useLocalContext';
 import ViewDreamModal from '../components/ViewDreamModal';
 import LoadingScreenOverlay from '../components/LoadingScreenOverlay';
@@ -17,7 +16,6 @@ const Home = () => {
   const [selectedDream, setSelectedDream] = useState(null);
   const [dreams, setDreams] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [gridMode, setGridMode] = useState(false);
 
   const { auth } = useAuth();
   const { setModal } = useLocalContext();
@@ -47,32 +45,18 @@ const Home = () => {
       <div className='flex flex-1 w-full md:flex-row flex-col-reverse'>
         <div className='flex flex-col p-4 w-full bg-gray-400 rounded-md m-2 gap-4'>
 
-          {gridMode ? loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`} /> :
-            dreams.length === 0
+          {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`} />
+            : dreams.length === 0
               ? <p className='text-black text-center text-4xl'>No Dream found</p>
-              : <Masonry
-                items={dreams}
-                columnGutter={8}
-                columnWidth={300}
-                overscanBy={5}
-                render={({ index, data: dream }) => (
-                  <DreamCard key={index} dream={dream} onclose={closeModal} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
-                )}
-              />
-            :
-
-            loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`} /> :
-              dreams.length === 0
-                ? <p className='text-black text-center text-4xl'>No Dream found</p>
-                : dreams.map((dream, index) => (
-                  <DreamCard2 key={index} dream={dream} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
-                ))
+              : dreams.map((dream, index) => (
+                <DreamCard2 key={index} dream={dream} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
+              ))
           }
 
         </div>
       </div>
       <div className='fixed z-10 bottom-8 right-8 hover:cursor-pointer bg-white rounded-lg w-12 h-12 flex justify-center items-center shadow-lg g-outline' onClick={() => { setOpenSubmitDreamModal(true); setModal(true) }}>
-        <LuPlus size={24}/>
+        <LuPlus size={24} />
       </div>
 
       <div>
@@ -86,7 +70,7 @@ const Home = () => {
           setOpenModal={setOpenViewDreamModal}
           dream={selectedDream}
           onDelete={fetchDreams}
-          delete={gridMode ? false : true}
+          delete={true}
         />
       </div>
     </div>
