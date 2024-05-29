@@ -6,7 +6,7 @@ import axios from "../api/axios";
 
 import React from "react";
 import { Button, Divider, Modal, Box } from "@mui/material";
-import { LuTrash2 } from "react-icons/lu";
+import { LuTrash2, LuFileEdit } from "react-icons/lu";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
 
@@ -58,14 +58,17 @@ const ViewDreamModal = props => {
               <p className="text-justify">{dream.Description}</p>
             </div>
           </div>
-          <div className="flex w-full justify-between">
-            <div className="flex items-center">
+          <div className="flex w-full flex-col gap-4">
+            <div className="flex items items-start">
               <Chips items={dream.Tags} readOnly />
               <Chips items={dream.Emotions} readOnly />
             </div>
-            <div className="place-self-end">
-              <Button onClick={()=>{deleteDream(dream._id)}} color="error"><LuTrash2 size={24}/></Button>
-            </div>
+            {props.delete && (
+              <div className="place-self-end">
+                <Button color="primary"><LuFileEdit size={24}/></Button>
+                <Button onClick={() => {deleteDream(dream._id)}} color="error"><LuTrash2 size={24}/></Button>
+              </div>
+            )}
           </div>
       </Box>
     </Modal>

@@ -14,8 +14,8 @@ const formatDate = date => {
 export const inDreamCard = ({ data: { Title, Date, Description, Tags, Emotions } }) => (
   <Card variant="outlined" className="max-w-full h-auto p-2 m-2 shadow-md cursor-pointer hover:shadow-2xl">
     <div className="flex justify-between">
-      <p className="px-1">{Title}</p>
-      <p className="px-1">{formatDate(Date)}</p>
+      <p className="px-1 w-4/6">{Title}</p>
+      <p className="px-1 w-2/6">{formatDate(Date)}</p>
     </div>
     <Divider className="py-1" />
     <div className="flex flex-col">

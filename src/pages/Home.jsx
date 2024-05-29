@@ -1,13 +1,8 @@
 import '../index.css';
-import EllipseButton from '../components/EllipseButton';
 import SubmitDreamModal from '../components/SubmitDreamModal';
-import DigitalClock from '../components/DigitalClock';
 import { DreamCard, DreamCard2 } from '../components/DreamCard';
 import { LuPlus } from "react-icons/lu";
 import { React, useState, useEffect } from 'react';
-import { Button } from '@mui/material';
-import { LocalizationProvider, DateCalendar} from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import useAuth from '../hooks/useAuth';
 import axios from '../api/axios';
 import { toast } from "react-toastify";
@@ -22,14 +17,15 @@ const Home = () => {
   const [selectedDream, setSelectedDream] = useState(null);
   const [dreams, setDreams] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [gridMode, setGridMode] = useState(false);
 
-  const {auth} = useAuth();
-  const {setModal} = useLocalContext();
+  const { auth } = useAuth();
+  const { setModal } = useLocalContext();
   const currentUserID = auth.userID;
 
   const fetchDreams = async () => {
     try {
-      const response = await axios.get(`/fetch/${currentUserID}`,{withCredentials: true});
+      const response = await axios.get(`/fetch/${currentUserID}`, { withCredentials: true });
       setDreams(response.data);
       setLoading(false);
     } catch (error) {
@@ -47,64 +43,52 @@ const Home = () => {
   }, []);
 
   return (
-    <div className='flex flex-1 flex-col w-full'>
+    <div className='flex flex-1 flex-col w-full overflow-auto'>
       <div className='flex flex-1 w-full md:flex-row flex-col-reverse'>
-        <div className='flex flex-col p-4 sm:w-full md:w-47p lg:w-48p xl:w-73p bg-gray-400 rounded-md m-2 gap-4'>
+        <div className='flex flex-col p-4 w-full bg-gray-400 rounded-md m-2 gap-4'>
 
-          {/* MAYBE PASSING KEY IN DREAMCARD AS PROPS OR PARAM WILL SOLVE WEAKMAP ERROR */}
-          {/* {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`}/>:
-          dreams.length === 0
-          ? <p className='text-black text-center text-4xl'>No Dream found</p>
-          : <Masonry 
-              items={dreams}
-              columnGutter={8}
-              columnWidth={300}
-              overscanBy={5}
-              render={({ index, data: dream }) => (
-                <DreamCard key={index} dream={dream} onclose={closeModal} onCardClick={() => {setOpenViewDreamModal(true);setModal(true);setSelectedDream(dream) }}/>
-              )}
-            />
-          } */}
-
-          {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`}/>:
+          {gridMode ? loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`} /> :
             dreams.length === 0
               ? <p className='text-black text-center text-4xl'>No Dream found</p>
-              : dreams.map((dream, index)=>(
-                  <DreamCard2 key={index} dream={dream} onCardClick={() => {setOpenViewDreamModal(true);setModal(true);setSelectedDream(dream) }}/>
+              : <Masonry
+                items={dreams}
+                columnGutter={8}
+                columnWidth={300}
+                overscanBy={5}
+                render={({ index, data: dream }) => (
+                  <DreamCard key={index} dream={dream} onclose={closeModal} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
+                )}
+              />
+            :
+
+            loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`} /> :
+              dreams.length === 0
+                ? <p className='text-black text-center text-4xl'>No Dream found</p>
+                : dreams.map((dream, index) => (
+                  <DreamCard2 key={index} dream={dream} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
                 ))
           }
 
         </div>
-        <div className='flex flex-col p-4 items-center bg-gray-600 sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/4 m-2 rounded fixed right-0 gap-4'>
-          <p className='text-2xl mb-4'>Dream Calendar</p>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateCalendar className='bg-slate-100 rounded' readOnly/>
-            <span className='m-4'><DigitalClock /></span>
-          </LocalizationProvider>
-          <Button variant='outlined' color='primary' onClick={() => { setOpenSubmitDreamModal(true);setModal(true) }}>Add Dream</Button>
-          <Button variant='outlined' color='primary'> Dream Board </Button>
-        </div>
       </div>
-      
+      <div className='fixed z-10 bottom-8 right-8 hover:cursor-pointer bg-white rounded-lg w-12 h-12 flex justify-center items-center shadow-lg g-outline' onClick={() => { setOpenSubmitDreamModal(true); setModal(true) }}>
+        <LuPlus size={24}/>
+      </div>
+
       <div>
-        <SubmitDreamModal 
+        <SubmitDreamModal
           openModal={openSubmitDreamModal}
           setOpenModal={setOpenSubmitDreamModal}
           onSubmit={fetchDreams}
         />
-        <ViewDreamModal 
+        <ViewDreamModal
           openModal={openViewDreamModal}
           setOpenModal={setOpenViewDreamModal}
           dream={selectedDream}
           onDelete={fetchDreams}
+          delete={gridMode ? false : true}
         />
       </div>
-
-      <span className='fixed z-10 bottom-5 right-5 md:bottom-10 md:right-10 sm:hidden block'>
-        <EllipseButton name='Add' color='primary' isIcon={true} icon={<LuPlus size={28} />} 
-          onClick={() => { setOpenSubmitDreamModal(true);setModal(true) }}
-        />
-      </span>
     </div>
   );
 }
