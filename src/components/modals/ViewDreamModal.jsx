@@ -1,8 +1,8 @@
-import useAuth from "../hooks/useAuth";
-import useLocalContext from "../hooks/useLocalContext";
-import { dps3 } from "../constants";
-import Chips from "./Chip";
-import axios from "../api/axios";
+import useAuth from "../../hooks/useAuth";
+import useLocalContext from "../../hooks/useLocalContext";
+import { dps3 } from "../../constants";
+import Chip from "../Chip";
+import axios from "../../api/axios";
 
 import React from "react";
 import { Button, Divider, Modal, Box } from "@mui/material";
@@ -25,6 +25,8 @@ const ViewDreamModal = props => {
   const { dream } = props;
   const { openModal, setOpenModal } = props;
   const {setModal} = useLocalContext();
+
+  console.log(dream);
 
   const deleteDream = async (id) => {
     try {
@@ -59,9 +61,17 @@ const ViewDreamModal = props => {
             </div>
           </div>
           <div className="flex w-full flex-col gap-4">
-            <div className="flex items items-start">
-              <Chips items={dream.Tags} readOnly />
-              <Chips items={dream.Emotions} readOnly />
+            <div className="flex flex-wrap">
+              {dream.Tags.map((tag, index)=>{
+                return (
+                  <Chip text={tag} readOnly/>
+                )
+              })}
+              {dream.Emotions.map((tag, index)=>{
+                return (
+                  <Chip text={tag} readOnly/>
+                )
+              })}
             </div>
             {props.delete && (
               <div className="place-self-end">

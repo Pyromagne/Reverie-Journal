@@ -1,9 +1,9 @@
 import React from "react";
 import { Card, Divider } from "@mui/material";
-import Chips from "./Chip";
+import Chip from "./Chip";
 import dayjs from "dayjs";
 
-const truncateDescription = (description, length=200) => {
+const truncateDescription = (description, length = 200) => {
   return description.length > length ? description.substring(0, length) + '...' : description;
 };
 
@@ -20,15 +20,23 @@ export const inDreamCard = ({ data: { Title, Date, Description, Tags, Emotions }
     <Divider className="py-1" />
     <div className="flex flex-col">
       <p className="p-1 text-justify">{truncateDescription(Description, 275)}</p>
-      <div className="flex">
-        <Chips items={Tags} readOnly={true}></Chips>
-        <Chips items={Emotions} readOnly={true}></Chips>
+      <div className="flex flex-wrap">
+        {
+          Tags.slice(0, 3).map((tag, index) => (
+            <Chip key={index} text={tag} readOnly={true} />
+          ))
+        }
+        {
+          Emotions.slice(0, 3).map((emotion, index) => (
+            <Chip key={index} text={emotion} readOnly={true} />
+          ))
+        }
       </div>
     </div>
   </Card>
 );
 
-export const DreamCard2 = ({dream, onCardClick}) => {
+export const DreamCard2 = ({ dream, onCardClick }) => {
   const { Title, Date, Description, Tags, Emotions } = dream;
 
   return (
@@ -39,8 +47,16 @@ export const DreamCard2 = ({dream, onCardClick}) => {
       </div>
       <Divider className="py-1" />
       <p className="p-1 text-justify">{truncateDescription(Description, 275)}</p>
-      <Chips items={Tags} readOnly={true}></Chips>
-      <Chips items={Emotions} readOnly={true}></Chips>
+      {
+        Tags.slice(0, 3).map((tag, index) => (
+          <Chip key={index} text={tag} readOnly={true} />
+        ))
+      }
+      {
+        Emotions.slice(0, 3).map((emotion, index) => (
+          <Chip key={index} text={emotion} readOnly={true} />
+        ))
+      }
     </Card>
   )
 }

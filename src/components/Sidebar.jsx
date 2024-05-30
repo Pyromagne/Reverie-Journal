@@ -3,7 +3,7 @@ import useAuth from "../hooks/useAuth";
 import { Divider } from "@mui/material";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { LuMenu } from "react-icons/lu";
-import ProfileMenu from "./popoverMenu/ProfileMenu";
+import ProfileMenu from "./popoverMenus/ProfileMenu";
 import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import { useNavigate } from "react-router-dom";

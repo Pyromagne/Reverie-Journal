@@ -5,7 +5,7 @@ import useLocalContext from "../hooks/useLocalContext";
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
 import { toast } from "react-toastify";
-import ViewDreamModal from "../components/ViewDreamModal";
+import ViewDreamModal from "../components/modals/ViewDreamModal";
 import Masonry from '@mui/lab/Masonry';
 
 

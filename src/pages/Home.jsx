@@ -1,13 +1,13 @@
 import '../index.css';
-import SubmitDreamModal from '../components/SubmitDreamModal';
-import { DreamCard, DreamCard2 } from '../components/DreamCard';
+import SubmitDreamModal from '../components/modals/SubmitDreamModal';
+import { DreamCard2 } from '../components/DreamCard';
 import { LuPlus } from "react-icons/lu";
 import { React, useState, useEffect } from 'react';
 import useAuth from '../hooks/useAuth';
 import axios from '../api/axios';
 import { toast } from "react-toastify";
 import useLocalContext from '../hooks/useLocalContext';
-import ViewDreamModal from '../components/ViewDreamModal';
+import ViewDreamModal from '../components/modals/ViewDreamModal';
 import LoadingScreenOverlay from '../components/LoadingScreenOverlay';
 
 const Home = () => {
