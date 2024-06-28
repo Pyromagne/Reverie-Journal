@@ -9,7 +9,7 @@ const Layout = () => {
 
       <div className={`homeLayout flex h-screen`}>
         <Sidebar />
-        <main className='flex-1 flex flex-col w-full bg-white m-2 rounded-xl shadow-lg overflow-hidden'>
+        <main className='flex-1 flex flex-col w-full bg-white m-2 rounded-xl shadow-lg overflow-hidden g-outline'>
           <Outlet />
         </main>
       </div>

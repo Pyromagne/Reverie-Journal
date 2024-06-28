@@ -43,13 +43,16 @@ const Home = () => {
   return (
     <div className='flex flex-1 flex-col w-full overflow-auto'>
       <div className='flex flex-1 w-full md:flex-row flex-col-reverse'>
-        <div className='flex flex-col p-4 w-full bg-gray-400 rounded-md m-2 gap-4'>
+        <div className='flex flex-col p-4 w-full rounded-md m-2 gap-4'>
 
           {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`} />
             : dreams.length === 0
               ? <p className='text-black text-center text-4xl'>No Dream found</p>
               : dreams.map((dream, index) => (
-                <DreamCard2 key={index} dream={dream} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
+                <div className='w-4/5'>
+                  <DreamCard2 key={index} dream={dream} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
+                </div>
+                
               ))
           }
 

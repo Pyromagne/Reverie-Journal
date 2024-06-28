@@ -21,7 +21,7 @@ const ProfileMenu = () => {
   return (
     <div className="g-outline bg-white py-2 p-2 w-32 rounded-md flex flex-col gap-1">
       <p className={btncls} onClick={handleSignout}>Sign Out</p>
-      <p className={btncls} onClick={setSidebarType}>{isMiniSidebar?`Show`:`Hide`}</p>
+      {/* <p className={btncls} onClick={setSidebarType}>{isMiniSidebar?`Expand`:`Collapse`}</p> */}
     </div>
   )
 }

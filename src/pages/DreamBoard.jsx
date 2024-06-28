@@ -42,7 +42,7 @@ const DreamBoard = () => {
   return (
     <div className="flex flex-1 flex-col w-full overflow-auto">
       <div className='flex flex-1 w-full md:flex-row flex-col-reverse'>
-        <div className='gradient flex flex-col p-4 w-full rounded-md m-2 gap-4'>
+        <div className='grad1 flex flex-col p-6 w-full rounded-md gap-4'>
 
           {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`} /> :
             dreams.length === 0

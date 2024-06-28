@@ -40,13 +40,13 @@ export const DreamCard2 = ({ dream, onCardClick }) => {
   const { Title, Date, Description, Tags, Emotions } = dream;
 
   return (
-    <Card variant="outlined" onClick={onCardClick} className='w-full bg-white rounded-md shadow-md h-auto p-2 cursor-pointer hover:shadow-2xl'>
+    <Card variant="outlined" onClick={onCardClick} className='w-full bg-white rounded-md shadow-sm hover:shadow-md h-auto p-2 cursor-pointer'>
       <div className="flex justify-between">
         <p>{Title}</p>
         <p className="px-1">{formatDate(Date)}</p>
       </div>
       <Divider className="py-1" />
-      <p className="p-1 text-justify">{truncateDescription(Description, 275)}</p>
+      <p className="p-1 text-justify">{truncateDescription(Description, 500)}</p>
       {
         Tags.slice(0, 3).map((tag, index) => (
           <Chip key={index} text={tag} readOnly={true} />
