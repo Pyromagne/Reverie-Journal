@@ -1,13 +1,14 @@
-import useAuth from "../hooks/useAuth";
-import axios from '../api/axios';
-import { centuryGothicFont } from "../constants";
-import "react-toastify/dist/ReactToastify.css";
 import { React, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { LuEye, LuEyeOff } from "react-icons/lu";
-import { Button, Box, TextField } from "@mui/material";
-import { toast } from "react-toastify";
 
+import { LuEye, LuEyeOff } from "react-icons/lu";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import useAuth from "../hooks/useAuth";
+import axios from '../api/axios';
+import { sd1 } from "../data/strings";
 /////////////////////////////////////////////////////////////
 
 const SignIn = () => {
@@ -37,9 +38,9 @@ const SignIn = () => {
     if (auth.accessToken) {
       navigate('/');
     }
-    
+
     localStorage.setItem("persist", persist)
-  },[auth.accessToken, persist])
+  }, [auth.accessToken, persist])
 
   //FORM DATA//////////////////////////////////////////////////
 
@@ -64,17 +65,17 @@ const SignIn = () => {
         {
           headers: {
             "Content-Type": "application/json",
-          },withCredentials: true
+          }, withCredentials: true
         }
       );
-      
+
       const accessToken = response?.data?.accessToken;
       const username = response?.data?.username;
       const email = response?.data?.email;
       const userID = response?.data?.userID;
 
       setAuth({ email: email, username: username, userID: userID, accessToken });
-      
+
       toast.success("Logged in successfully");
       navigate(from, { replace: true });
 
@@ -100,47 +101,100 @@ const SignIn = () => {
 
   /////////////////////////////////////////////////////////////
 
-  return(
+  return (
     <div>
-      {auth.accessToken ? <></> :
-        <div className="flex flex-col justify-center items-center w-full h-screen">
-          <h3 className="md:text-5xl text-4xl text-slate-300 m-6">Reverie Journal</h3>
-          <form onSubmit={handleSignInSubmission} className="flex justify-center p-4 rounded md:w-1/3 w-4/5 bg-slate-300">
-            <Box className="flex flex-col justify-around gap-4 w-full p-4">
-              <p className="text-slate-700 text-2xl">Sign In</p>
-              <TextField label='Email' id="email" type="email" variant='outlined' className="place-self-center w-full" value={signInFormData.email} onChange={handleChange}
-              InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}} />
+      {auth.accessToken ? null :
+        <div className="flex h-screen gradient-background p-28">
+          <div className="flex flex-col w-1/2">
+            <div className="font-bold text-6xl mb-10">
+              <p>Reverie</p>
+              <p>Journal</p>
+            </div>
 
-              <div className="relative">
-                <TextField label='Password' id="password" type={showPassword ? "text" : "password"} variant='outlined' className="place-self-center w-full" value={signInFormData.password} onChange={handleChange}
-                InputProps={{style: centuryGothicFont}} InputLabelProps={{ style: centuryGothicFont}} />
-                <div className="absolute inset-y-0 right-2 flex items-center pr-2 cursor-pointer text-slate-400 "onClick={togglePasswordVisibility}>
-                  {showPassword ? <LuEye size={23} /> : <LuEyeOff size={23} />}
+            {sd1.map((data, index) => {
+              return (
+                <div key={index} className="mb-5">
+                  <Card data={data}/>
                 </div>
+              )
+            })}
 
+          </div>
+          <div className="flex flex-col justify-center items-center w-1/2">
+            <form
+              onSubmit={handleSignInSubmission}
+              className="flex flex-col p-14 rounded-3xl w-4/5 white-transparent-radial"
+            >
+
+              <div className="text-center mb-10">
+                <p className="font-semibold text-2xl">Sign in your account</p>
+                <p className="font-light">Do not have an account yet? <a href="" className=" font-normal">Sign Up</a></p>
               </div>
 
-              <div className="flex space-x-2 justify-between pt-2 md:pt-0">
-                <Button variant="outlined" color="secondary" sx={centuryGothicFont} className='w-1/2' >
-                  Sign Up
-                </Button>
-                <Button type="submit" variant="outlined" color="primary" sx={centuryGothicFont} className='w-1/2'>
-                  Sign In
-                </Button>
+              <div className="mb-5">
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="Email"
+                  className="mb-5 place-self-center w-full p-2 bg-transparent border border-gray-400  rounded-lg focus:outline-none font-light"
+                  value={signInFormData.email}
+                  onChange={handleChange}
+                />
+
+                <div className="relative">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    className="place-self-center w-full p-2 bg-transparent border border-gray-400 text-black rounded-lg focus:outline-none font-light"
+                    value={signInFormData.password}
+                    onChange={handleChange}
+                  />
+                  <div className="absolute inset-y-0 right-2 flex items-center pr-2 cursor-pointer text-slate-400 " onClick={togglePasswordVisibility}>
+                    {showPassword ? <LuEye size={23} /> : <LuEyeOff size={23} />}
+                  </div>
+                </div>
               </div>
-              <div className="flex gap-2">
-                <input type="checkbox" id="persist" onChange={togglePersist} checked={persist}/>
-                <label htmlFor="persist">Trust This Device</label>
+
+              <div className="flex justify-between mb-28">
+                <div className="flex gap-2 w-fit">
+                  <input type="checkbox" id="persist" className="hover:cursor-pointer" onChange={togglePersist} checked={persist} />
+                  <label htmlFor="persist" className="hover:cursor-pointer font-light">Trust This Device</label>
+                </div>
+                <a href="" className='w-fit font-light'>
+                  Forgot Password?
+                </a>
               </div>
-              <Button variant="text" color="primary" sx={centuryGothicFont} className='w-1/2'>
-                Forgot Password?
-              </Button>
-            </Box>
-          </form>
+
+              <button className="p-2 rounded-lg bg-white mb-5">
+                Sign In
+              </button>
+
+              <div className="flex gap-2 font-light justify-center">
+                <a href="">Privacy Policy</a>
+                <p>|</p>
+                <a href="">Terms and Condition</a>
+              </div>
+            </form>
+          </div>
         </div>
       }
     </div>
-    
-)}
+
+  )
+}
+
+const Card = ({data}) => {
+  const {icon: Icon, title, desc} = data;
+  return (
+    <div className="w-full flex">
+      <Icon size={64}/>
+      <div className="w-4/5">
+        <p className="font-bold text-xl">{title}</p>
+        <p className="text-justify">{desc}</p>
+      </div>
+    </div>
+  )
+}
 
 export default SignIn;

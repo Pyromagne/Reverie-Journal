@@ -6,16 +6,22 @@
   outline: navy 1px solid;
 } */
 
+.didact-gothic-regular {
+  font-family: "Didact Gothic", sans-serif;
+  font-style: normal;
+}
+
+.poppins-regular {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+}
+
 * {
-  @apply duration-200;
-  font-family: 'Century Gothic';
+  @apply poppins-regular;
 }
 
 html {
-  /* overflow-y: scroll !important; */
-  /* scrollbar-width: none; */
-  /* @apply gradient; */
-  @apply bg-gray-100;
+  @apply bg-neutral-100;
 }
 
 body {
@@ -32,6 +38,7 @@ code {
 
 ::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
   border-radius: 10px;
   /* @apply bg-slate-700; */
 }
@@ -55,9 +62,12 @@ div> ::-webkit-scrollbar-track {
   border-radius: 4px;
 }
 
-.gradient {
-  background: rgb(167,100,222);
-  background: linear-gradient(180deg, rgba(167,100,222,1) 0%, rgba(42,5,50,1) 100%);
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+input[data-autocompleted] {
+    background-color: transparent !important;
 }
 
 .g-outline {
