@@ -128,7 +128,7 @@ const SignIn = () => {
 
               <div className="text-center mb-10">
                 <p className="font-semibold text-2xl">Sign in your account</p>
-                <p className="font-light">Do not have an account yet? <a href="" className=" font-normal">Sign Up</a></p>
+                <p className="font-light">Do not have an account yet? <a href="/signup" className="font-normal">Sign Up</a></p>
               </div>
 
               <div className="mb-5">

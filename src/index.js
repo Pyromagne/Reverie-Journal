@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { AuthProvider } from './providers/AuthProvider';
-import { ContextProvider } from './providers/ContextProvider';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
+
+import { AuthProvider } from './providers/AuthProvider';
+import { ContextProvider } from './providers/ContextProvider';
+
+import App from './App';
+
+import './styles/global.css';
+import './styles/gradients.css'
 
 const toastStyle = {
   position: "top-right",
