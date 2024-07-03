@@ -3,7 +3,6 @@ import useLocalContext from '../../hooks/useLocalContext';
 import axios from '../../api/axios';
 import { centuryGothicFont, dps3 } from "../../constants";
 import Chip from '../Chip';
-import '../../index.css';
 
 import { React, useState, useEffect } from 'react';
 import { Box, Modal, TextField, Button, Divider, MenuItem } from "@mui/material";

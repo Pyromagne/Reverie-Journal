@@ -16,12 +16,21 @@ const ProfileMenu = () => {
     navigate('/signin');
   }
 
-  const btncls = "hover:cursor-pointer text-sm hover:bg-gray-200 px-1 rounded";
+  const btncls = "hover:cursor-pointer hover:bg-gray-200 px-1 rounded";
 
   return (
-    <div className="g-outline bg-white py-2 p-2 w-32 rounded-md flex flex-col gap-1">
-      <p className={btncls} onClick={handleSignout}>Sign Out</p>
-      {/* <p className={btncls} onClick={setSidebarType}>{isMiniSidebar?`Expand`:`Collapse`}</p> */}
+    <div className="font-light g-outline bg-white py-2 p-2 w-52 rounded-md flex flex-col">
+      <div className="flex flex-col items-center text-center mb-6">
+        <p className="font-semibold">{auth.username}</p>
+        <p className="text-sm mb-2">{auth.email}</p>
+        <p className="text-sm rounded-full p-1 g-outline w-fit px-2 hover:cursor-pointer hover:scale-105 duration-200">Edit Profile</p>
+      </div>
+      <hr className="mb-2"/>
+      <div className="text-sm flex flex-col gap-1">
+        <p className={btncls}>Themes</p>
+        <p className={btncls}>Settings</p>
+        <p className={btncls} onClick={handleSignout}>Sign Out</p>
+      </div>
     </div>
   )
 }

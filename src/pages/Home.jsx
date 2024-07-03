@@ -1,4 +1,3 @@
-import '../index.css';
 import SubmitDreamModal from '../components/modals/SubmitDreamModal';
 import { DreamCard2 } from '../components/DreamCard';
 import { LuPlus } from "react-icons/lu";
@@ -41,25 +40,32 @@ const Home = () => {
   }, []);
 
   return (
-    <div className='flex flex-1 flex-col w-full overflow-auto'>
-      <div className='flex flex-1 w-full md:flex-row flex-col-reverse'>
-        <div className='flex flex-col p-4 w-full rounded-md m-2 gap-4'>
-
-          {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`} />
-            : dreams.length === 0
-              ? <p className='text-black text-center text-4xl'>No Dream found</p>
-              : dreams.map((dream, index) => (
-                <div className='w-4/5'>
-                  <DreamCard2 key={index} dream={dream} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
-                </div>
-                
-              ))
-          }
-
+    <div className='flex overflow-hidden h-full'>
+      <div className='flex w-4/6 g-outline rounded-3xl overflow-y-auto m-2'>
+        <div className='relative overflow-y-auto mr-2 my-4'>
+          <div className='flex flex-col p-4 gap-4'>
+            {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`} />
+              : dreams.length === 0
+                ? <p className='text-black text-center text-4xl'>No Dream found</p>
+                : dreams.map((dream, index) => (
+                  <div className=''>
+                    <DreamCard2 key={index} dream={dream} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
+                  </div>
+                ))
+            }
+          </div>
+          <div className='absolute z-10 bottom-8 right-8 hover:cursor-pointer bg-white rounded-lg w-12 h-12 flex justify-center items-center shadow-lg g-outline' onClick={() => { setOpenSubmitDreamModal(true); setModal(true) }}>
+            <LuPlus size={24} />
+          </div>
         </div>
       </div>
-      <div className='fixed z-10 bottom-8 right-8 hover:cursor-pointer bg-white rounded-lg w-12 h-12 flex justify-center items-center shadow-lg g-outline' onClick={() => { setOpenSubmitDreamModal(true); setModal(true) }}>
-        <LuPlus size={24} />
+
+      <div className='flex w-2/6 g-outline rounded-3xl overflow-y-auto m-2'>
+        <div className='relative overflow-y-auto mr-2 my-4'>
+          <div className='flex flex-col p-4'>
+
+          </div>
+        </div>
       </div>
 
       <div>

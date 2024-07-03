@@ -30,3 +30,46 @@
   background: radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .5) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#ffffff", GradientType=1);
 }
+
+.gg {
+  background: radial-gradient(circle, #e3d8bc, #97ecd5, #ace594, #267e66);
+  background-size: 240% 240%;
+  animation: gg 24s ease infinite;
+}
+
+@keyframes gg {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-background-2{
+  position: relative;
+}
+
+.gradient-background-2::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 65%;
+  height: 65%;
+  border-radius: 100rem;
+  background: 
+    radial-gradient(circle at top left, #e3d8bc, rgba(227, 216, 188, 0) 70%),
+    radial-gradient(circle at top right, #97ecd5, rgba(151, 236, 213, 0) 70%),
+    radial-gradient(circle at bottom left, #ace594, rgba(172, 229, 148, 0) 70%),
+    radial-gradient(circle at bottom right, #267e66, rgba(38, 126, 102, 0) 70%);
+  background-blend-mode: normal;
+  filter: blur(100px);
+  z-index: -1;
+}

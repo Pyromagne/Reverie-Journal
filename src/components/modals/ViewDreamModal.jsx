@@ -26,8 +26,6 @@ const ViewDreamModal = props => {
   const { openModal, setOpenModal } = props;
   const {setModal} = useLocalContext();
 
-  console.log(dream);
-
   const deleteDream = async (id) => {
     try {
       const response = await axios.delete(`/delete/${id}`,{withCredentials: true});

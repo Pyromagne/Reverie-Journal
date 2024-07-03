@@ -20,10 +20,6 @@
   @apply poppins-regular;
 }
 
-html {
-  @apply bg-neutral-100;
-}
-
 body {
   margin: 0;
   font-family: 'Century Gothic';
@@ -40,25 +36,21 @@ code {
   width: 10px;
   height: 10px;
   border-radius: 10px;
-  /* @apply bg-slate-700; */
 }
 
 ::-webkit-scrollbar-track {
-  /* @apply bg-slate-700; */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: white;
   border-radius: 4px;
-  @apply bg-slate-800;
+  background-color: #30b591;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-800;
+  background-color: #267E66;
 }
 
 div> ::-webkit-scrollbar-track {
-  background: white;
   border-radius: 4px;
 }
 
