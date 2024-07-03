@@ -89,7 +89,8 @@ const Sidebar = () => {
 
         {isMiniSidebar ?
           <div className="mt-auto flex justify-center">
-            <FaRegCircleUser size={38} className="hover:cursor-pointer select-none" onClick={handleProfileMenuClick}/>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-gka0l1ZzNvolZQoaOUCZLAegXtk_mom0DA&s" alt="profile" className={`rounded-full w-[48px]`} />
+            {/* <FaRegCircleUser size={38} className="hover:cursor-pointer select-none" onClick={handleProfileMenuClick}/> */}
           </div>
           :
           <div className="flex justify-between items-center mt-auto">
