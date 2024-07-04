@@ -42,14 +42,17 @@ const Home = () => {
 
   return (
     <div className='flex overflow-hidden h-full'>
-      <div className='flex w-4/6 g-outline rounded-3xl overflow-y-auto m-2'>
+      <div className='relative flex w-4/6 g-outline rounded-3xl overflow-y-auto m-2'>
+        <div className='absolute z-10 bottom-8 right-8 hover:cursor-pointer bg-white rounded-full w-12 h-12 flex justify-center items-center shadow-lg g-outline' onClick={() => { setOpenSubmitDreamModal(true); setModal(true) }}>
+          <LuPlus size={24} />
+        </div>
         <div className='relative overflow-y-auto mr-2 my-4 w-full'>
           <div className='flex flex-col p-4 gap-4'>
             {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`} />
               : dreams.length === 0
-                ? 
+                ?
                 <div className='flex flex-col items-center mt-20'>
-                  <img src={illustration} alt="no dream found" className='w-1/2'/>
+                  <img src={illustration} alt="no dream found" className='w-1/2' />
                   <p className='font-light text-center text-2xl'>Start your journey by creating your first dream entry!</p>
                 </div>
                 : dreams.map((dream, index) => (
@@ -58,9 +61,6 @@ const Home = () => {
                   </div>
                 ))
             }
-          </div>
-          <div className='absolute z-10 bottom-8 right-8 hover:cursor-pointer bg-white rounded-lg w-12 h-12 flex justify-center items-center shadow-lg g-outline' onClick={() => { setOpenSubmitDreamModal(true); setModal(true) }}>
-            <LuPlus size={24} />
           </div>
         </div>
       </div>
