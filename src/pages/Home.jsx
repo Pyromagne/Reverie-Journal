@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import useLocalContext from '../hooks/useLocalContext';
 import ViewDreamModal from '../components/modals/ViewDreamModal';
 import LoadingScreenOverlay from '../components/LoadingScreenOverlay';
+import illustration from '../assets/illustrations/Dreamer-rafiki.svg';
 
 const Home = () => {
   const [openSubmitDreamModal, setOpenSubmitDreamModal] = useState(false);
@@ -42,11 +43,15 @@ const Home = () => {
   return (
     <div className='flex overflow-hidden h-full'>
       <div className='flex w-4/6 g-outline rounded-3xl overflow-y-auto m-2'>
-        <div className='relative overflow-y-auto mr-2 my-4'>
+        <div className='relative overflow-y-auto mr-2 my-4 w-full'>
           <div className='flex flex-col p-4 gap-4'>
             {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`} />
               : dreams.length === 0
-                ? <p className='text-black text-center text-4xl'>No Dream found</p>
+                ? 
+                <div className='flex flex-col items-center mt-20'>
+                  <img src={illustration} alt="no dream found" className='w-1/2'/>
+                  <p className='font-light text-center text-2xl'>Start your journey by creating your first dream entry!</p>
+                </div>
                 : dreams.map((dream, index) => (
                   <div className=''>
                     <DreamCard2 key={index} dream={dream} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
