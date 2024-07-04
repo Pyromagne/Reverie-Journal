@@ -88,15 +88,16 @@ const Sidebar = () => {
         </div>
 
         {isMiniSidebar ?
-          <div className="mt-auto flex justify-center">
+          <div className="mt-auto flex justify-center mb-2">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-gka0l1ZzNvolZQoaOUCZLAegXtk_mom0DA&s" alt="profile" className={`rounded-full w-[48px]`} />
             {/* <FaRegCircleUser size={38} className="hover:cursor-pointer select-none" onClick={handleProfileMenuClick}/> */}
           </div>
           :
-          <div className="flex justify-between items-center mt-auto">
-            <div className="overflow-hidden">
-              <p className="font-semibold text-lg">{auth.username}</p>
-              <p className="font-light truncate">{auth.email}</p>
+          <div className="flex justify-between items-end mt-auto mb-2">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-gka0l1ZzNvolZQoaOUCZLAegXtk_mom0DA&s" alt="profile" className={`rounded-full w-[48px]`} />
+            <div className="ml-2 overflow-hidden">
+              <p className="font-semibold">{auth.username}</p>
+              <p className="font-light text-sm truncate">{auth.email}</p>
             </div>
             <IoEllipsisHorizontalSharp size={24} className="hover:cursor-pointer select-none" onClick={handleProfileMenuClick} />
           </div>
