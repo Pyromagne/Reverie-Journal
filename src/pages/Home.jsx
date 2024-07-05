@@ -56,8 +56,8 @@ const Home = () => {
                   <p className='font-light text-center text-2xl'>Start your journey by creating your first dream entry!</p>
                 </div>
                 : dreams.map((dream, index) => (
-                  <div className=''>
-                    <DreamCard2 key={index} dream={dream} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
+                  <div key={index}>
+                    <DreamCard2 dream={dream} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
                   </div>
                 ))
             }

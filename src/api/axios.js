@@ -1,6 +1,11 @@
 import axios from "axios";
 
-const BASE_URL = 'http://localhost:3001'
+let BASE_URL;
+if (process.env.REACT_APP_DEPLOYMENT_TYPE === 'local') {
+    BASE_URL = process.env.REACT_APP_BASE_URL_LOCAL;
+} else if (process.env.REACT_APP_DEPLOYMENT_TYPE === 'live') {
+    BASE_URL = process.env.REACT_APP_BASE_URL_LIVE;
+}
 
 export default axios.create({
     baseURL: BASE_URL
