@@ -47,8 +47,8 @@ const Home = () => {
           <LuPlus size={24} />
         </div>
         <div className='relative overflow-y-auto mr-2 my-4 w-full'>
-          <div className='flex flex-col p-4 gap-4'>
-            {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`} />
+          <div className='flex flex-col p-4 gap-4 h-full'>
+            {loading ? <LoadingScreenOverlay style={`flex w-full justify-center h-full`} message={`Please Wait`} />
               : dreams.length === 0
                 ?
                 <div className='flex flex-col items-center mt-20'>

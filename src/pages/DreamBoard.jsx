@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import LoadingScreenOverlay from "../components/LoadingScreenOverlay";
-import DreamCard from "../components/DreamCard";
+import { toast } from "react-toastify";
+import Masonry from '@mui/lab/Masonry';
+
+import useAuth from "../hooks/useAuth";
 import useLocalContext from "../hooks/useLocalContext";
 import axios from "../api/axios";
-import useAuth from "../hooks/useAuth";
-import { toast } from "react-toastify";
+
+import DreamCard from "../components/DreamCard";
 import ViewDreamModal from "../components/modals/ViewDreamModal";
-import Masonry from '@mui/lab/Masonry';
+import LoadingScreenOverlay from "../components/LoadingScreenOverlay";
 
 
 const DreamBoard = () => {
@@ -34,26 +36,25 @@ const DreamBoard = () => {
 
   useEffect(() => {
     fetchDreams();
-    /* toast.success('Fetch Succesfully'); */
   }, []);
 
-  const heights = [150, 30, 90, 70, 110, 150, 130, 80, 50, 90, 100, 150, 30, 50, 80];
 
   return (
-    <div className="flex flex-1 flex-col w-full overflow-auto">
-      <div className='flex flex-1 w-full md:flex-row flex-col-reverse'>
-        <div className='grad1 flex flex-col p-6 w-full rounded-md gap-4'>
-
-          {loading ? <LoadingScreenOverlay style={`flex w-full h-full justify-center`} message={`Please Wait`} /> :
-            dreams.length === 0
-              ? <p className='text-black text-center text-4xl'>No Dream found</p>
-              :
-              <Masonry columns={3} spacing={1}>
-                {dreams.map((dream, index) => (
-                  <DreamCard key={index} dream={dream} onclose={closeModal} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
-                ))}
-              </Masonry>
-          }
+    <div className="flex overflow-hidden h-full">
+      <div className='flex w-full g-outline rounded-3xl overflow-y-auto m-2'>
+        <div className='relative overflow-y-auto mr-2 my-4 w-full'>
+          <div className='flex flex-col p-6 w-full h-full rounded-md gap-4'>
+            {loading ? <LoadingScreenOverlay style={`flex w-full justify-center h-full`} message={`Please Wait`} /> :
+              dreams.length === 0
+                ? <p className='text-black text-center text-4xl'>No Dream found</p>
+                :
+                <Masonry columns={3} spacing={1}>
+                  {dreams.map((dream, index) => (
+                    <DreamCard key={index} dream={dream} onclose={closeModal} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
+                  ))}
+                </Masonry>
+            }
+          </div>
         </div>
       </div>
 
