@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import Masonry from '@mui/lab/Masonry';
 
 import useAuth from "../hooks/useAuth";

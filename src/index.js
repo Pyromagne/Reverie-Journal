@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ToastContainer } from "react-toastify";
 
 import { AuthProvider } from './providers/AuthProvider';
 import { ContextProvider } from './providers/ContextProvider';
@@ -26,7 +25,6 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ToastContainer {...toastStyle} />
       <ContextProvider>
         <AuthProvider>
           <Routes>

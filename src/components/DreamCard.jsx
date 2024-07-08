@@ -1,7 +1,8 @@
 import React from "react";
-import { Card, Divider } from "@mui/material";
-import Chip from "./Chip";
 import dayjs from "dayjs";
+import { Divider } from "@mui/material";
+
+import Chip from "./Chip";
 
 const truncateDescription = (description, length = 200) => {
   return description.length > length ? description.substring(0, length) + '...' : description;

@@ -1,4 +1,4 @@
-import { React } from 'react';
+import React from 'react';
 import { Chip as _Chip } from '@mui/material';
 
 const Chip = ({ text, onDelete, readOnly, chipKey }) => {

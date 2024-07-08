@@ -1,13 +1,11 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 import { LuEye, LuEyeOff } from "react-icons/lu";
 
-/* import { toast } from "react-toastify"; */
-import { toast } from "react-hot-toast";
-import "react-toastify/dist/ReactToastify.css";
-
 import axios from '../api/axios';
+
 import { sd1 } from "../data/strings";
 /////////////////////////////////////////////////////////////
 

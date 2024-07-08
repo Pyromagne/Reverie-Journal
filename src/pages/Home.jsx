@@ -1,13 +1,18 @@
-import SubmitDreamModal from '../components/modals/SubmitDreamModal';
-import { DreamCard2 } from '../components/DreamCard';
+import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
+
 import { LuPlus } from "react-icons/lu";
-import { React, useState, useEffect } from 'react';
+
 import useAuth from '../hooks/useAuth';
-import axios from '../api/axios';
-import { toast } from "react-toastify";
 import useLocalContext from '../hooks/useLocalContext';
+
+import axios from '../api/axios';
+
+import SubmitDreamModal from '../components/modals/SubmitDreamModal';
 import ViewDreamModal from '../components/modals/ViewDreamModal';
+import { DreamCard2 } from '../components/DreamCard';
 import LoadingScreenOverlay from '../components/LoadingScreenOverlay';
+
 import illustration from '../assets/illustrations/Dreamer-rafiki.svg';
 
 const Home = () => {

@@ -1,21 +1,18 @@
-import { React, useState, useEffect } from "react";
-import useAuth from "../hooks/useAuth";
-import { Divider } from "@mui/material";
-import { LuLayoutDashboard } from "react-icons/lu";
-import { LuMenu } from "react-icons/lu";
-import ProfileMenu from "./popoverMenus/ProfileMenu";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
-import { useNavigate } from "react-router-dom";
-import { LuHome } from "react-icons/lu";
-import useLocalContext from "../hooks/useLocalContext";
-import { LuArrowRight } from "react-icons/lu";
+
 import { LuArrowLeft } from "react-icons/lu";
-
+import { LuArrowRight } from "react-icons/lu";
 import { IoEllipsisHorizontalSharp } from "react-icons/io5";
-
 import { MdHome, MdDashboard } from "react-icons/md";
-import { FaCircleUser, FaRegCircleUser  } from "react-icons/fa6";
+
+import useAuth from "../hooks/useAuth";
+import useLocalContext from "../hooks/useLocalContext";
+
+import ProfileMenu from "./popoverMenus/ProfileMenu";
+
 
 
 const Sidebar = () => {
