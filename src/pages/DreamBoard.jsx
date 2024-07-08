@@ -6,7 +6,7 @@ import useAuth from "../hooks/useAuth";
 import useLocalContext from "../hooks/useLocalContext";
 import axios from "../api/axios";
 
-import DreamCard from "../components/DreamCard";
+import { DreamCard2 } from "../components/DreamCard";
 import ViewDreamModal from "../components/modals/ViewDreamModal";
 import LoadingScreenOverlay from "../components/LoadingScreenOverlay";
 
@@ -50,7 +50,7 @@ const DreamBoard = () => {
                 :
                 <Masonry columns={3} spacing={1}>
                   {dreams.map((dream, index) => (
-                    <DreamCard key={index} dream={dream} onclose={closeModal} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
+                    <DreamCard2 key={index} dream={dream} onclose={closeModal} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
                   ))}
                 </Masonry>
             }

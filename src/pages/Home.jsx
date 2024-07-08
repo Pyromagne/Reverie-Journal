@@ -10,7 +10,7 @@ import axios from '../api/axios';
 
 import SubmitDreamModal from '../components/modals/SubmitDreamModal';
 import ViewDreamModal from '../components/modals/ViewDreamModal';
-import { DreamCard2 } from '../components/DreamCard';
+import DreamCard from '../components/DreamCard';
 import LoadingScreenOverlay from '../components/LoadingScreenOverlay';
 
 import illustration from '../assets/illustrations/Dreamer-rafiki.svg';
@@ -62,7 +62,7 @@ const Home = () => {
                 </div>
                 : dreams.map((dream, index) => (
                   <div key={index}>
-                    <DreamCard2 dream={dream} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
+                    <DreamCard dream={dream} onCardClick={() => { setOpenViewDreamModal(true); setModal(true); setSelectedDream(dream) }} />
                   </div>
                 ))
             }

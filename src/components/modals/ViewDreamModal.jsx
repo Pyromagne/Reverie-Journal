@@ -60,7 +60,7 @@ const ViewDreamModal = props => {
             </div>
           </div>
           <div className="flex w-full flex-col gap-4">
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap gap-1">
               {dream.Tags.map((tag, index)=>{
                 return (
                   <Chip text={tag} readOnly/>

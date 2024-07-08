@@ -1,6 +1,5 @@
 import React from "react";
 import dayjs from "dayjs";
-import { Divider } from "@mui/material";
 
 import Chip from "./Chip";
 
@@ -12,19 +11,15 @@ const formatDate = date => {
   return dayjs(date).format('MM-DD-YYYY');
 }
 
-export const inDreamCard = ({ data: { Title, Date, Description, Tags, Emotions } }) => (
+const inDreamCard = ({ data: { Title, Date, Description, Tags, Emotions } }) => (
   <div className="max-w-full h-auto p-2 m-2 cursor-pointer g-outline rounded-md hover:bg-white/20 duration-300">
-    <div className="flex justify-between">
-      <p className="px-1 w-4/6">{Title}</p>
-      <p className="px-1 w-2/6">{formatDate(Date)}</p>
-    </div>
-    <Divider className="py-1" />
+    <p className="mx-1 mb-2 font-semibold">{Title}</p>
+    <p className="mx-1 font-light">{truncateDescription(Description, 275)}</p>
     <div className="flex flex-col">
-      <p className="p-1 text-justify">{truncateDescription(Description, 275)}</p>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap gap-1">
         {
           Tags.slice(0, 3).map((tag, index) => (
-            <Chip key={index} text={tag} readOnly={true} />
+            <Chip key={index} text={tag} readOnly={true}/>
           ))
         }
         {
@@ -37,7 +32,7 @@ export const inDreamCard = ({ data: { Title, Date, Description, Tags, Emotions }
   </div>
 );
 
-export const DreamCard2 = ({ dream, onCardClick }) => {
+export const DreamCard = ({ dream, onCardClick }) => {
   const { Title, Date, Description, Tags, Emotions } = dream;
 
   return (
@@ -47,21 +42,23 @@ export const DreamCard2 = ({ dream, onCardClick }) => {
         <p className=" font-semibold">{Title}</p>
       </div>
       <p className="font-light">{truncateDescription(Description, 500)}</p>
-      {
-        Tags.slice(0, 3).map((tag, index) => (
-          <Chip key={index} text={tag} readOnly={true} />
-        ))
-      }
-      {
-        Emotions.slice(0, 3).map((emotion, index) => (
-          <Chip key={index} text={emotion} readOnly={true} />
-        ))
-      }
+      <div className="flex flex-wrap gap-1 mt-4">
+        {
+          Tags.slice(0, 3).map((tag, index) => (
+            <Chip key={index} text={tag} readOnly={true} />
+          ))
+        }
+        {
+          Emotions.slice(0, 3).map((emotion, index) => (
+            <Chip key={index} text={emotion} readOnly={true} />
+          ))
+        }
+      </div>
     </div>
   )
 }
 
-export const DreamCard = ({ dream, onCardClick }) => {
+export const DreamCard2 = ({ dream, onCardClick }) => {
   const { Title, Date, Description, Tags, Emotions } = dream;
   const truncDesc = truncateDescription(Description, 275);
   const formattedDate = formatDate(Date);

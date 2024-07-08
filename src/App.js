@@ -13,7 +13,10 @@ import DreamBoard from "./pages/DreamBoard";
 function App() {
   return (
     <>
-      <Toaster />
+      <Toaster 
+        position="bottom-right"
+        reverseOrder={false}
+      />
       <Routes>
       <Route element={<PersistLogin />}>
 
