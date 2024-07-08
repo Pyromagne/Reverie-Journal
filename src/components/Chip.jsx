@@ -1,16 +1,14 @@
 import React from 'react';
-import { Chip as _Chip } from '@mui/material';
 
 const Chip = ({ text, onDelete, readOnly, chipKey }) => {
 
   return (
-    <_Chip
-      label={text}
-      variant="outlined"
-      color="primary"
-      style={{ margin: '4px' }}
-      onDelete={readOnly ? null : () => onDelete(chipKey)}
-    />
+    <div
+      onClick={readOnly ? null : () => onDelete(chipKey)}
+      className={`inline w-fit border-[#267E66] border rounded-full p-1 px-2 ${readOnly ? null : 'hover:cursor-pointer'}`}
+    >
+      <p className='inline font-light text-sm text-[#267E66]'>{text}</p>
+    </div>
   );
 };
 
