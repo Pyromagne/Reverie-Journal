@@ -8,7 +8,6 @@ export const generateProfile = (username) => {
 
     const color = randomColor({hue: 'green'});
     const initial = username.charAt(0);
-
     return {color, initial};
 }
 

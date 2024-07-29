@@ -11,6 +11,10 @@ import axios from '../api/axios';
 import { generateProfile } from "../components/InitialProfile";
 
 import { sd1 } from "../data/strings";
+
+import { momentum } from 'ldrs'
+
+momentum.register();
 /////////////////////////////////////////////////////////////
 
 const SignIn = () => {
@@ -20,7 +24,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  
+
   const [loading, setLoading] = useState(false);
 
   /////////////////////////////////////////////////////////////
@@ -99,7 +103,7 @@ const SignIn = () => {
       else {
         toast.error('An error occurred');
       }
-      
+
       setLoading(false);
     }
   }
@@ -126,7 +130,7 @@ const SignIn = () => {
             {sd1.map((data, index) => {
               return (
                 <div key={index} className="mb-5">
-                  <Card data={data}/>
+                  <Card data={data} />
                 </div>
               )
             })}
@@ -177,9 +181,10 @@ const SignIn = () => {
                   Forgot Password?
                 </a>
               </div>
-
-              <button className={`${loading ? 'p-2 rounded-lg bg-gray-300 mb-5' : 'p-2 rounded-lg bg-white mb-5' }`} disabled={loading}>
-                Sign In
+              <button className="p-2 rounded-lg bg-white mb-5" disabled={loading}>
+                {loading
+                  ? <l-momentum size="18" speed="1" color="black" /> 
+                  : 'Sign In'}
               </button>
 
               <div className="flex gap-2 font-light justify-center">
@@ -196,11 +201,11 @@ const SignIn = () => {
   )
 }
 
-const Card = ({data}) => {
-  const {icon: Icon, title, desc} = data;
+const Card = ({ data }) => {
+  const { icon: Icon, title, desc } = data;
   return (
     <div className="w-full flex">
-      <Icon size={64}/>
+      <Icon size={64} />
       <div className="w-4/5">
         <p className="font-bold text-xl">{title}</p>
         <p className="text-justify">{desc}</p>
