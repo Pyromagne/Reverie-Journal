@@ -89,7 +89,9 @@ const Sidebar = () => {
           </div>
           :
           <div className="flex justify-between items-end mt-auto mb-2">
-            <InitialProfile data={profileData}/>
+            <div className="w-1/4">
+              <InitialProfile data={profileData}/>
+            </div>
             <div className="ml-2 overflow-hidden">
               <p className="font-semibold">{auth.username}</p>
               <p className="font-light text-sm truncate">{auth.email}</p>

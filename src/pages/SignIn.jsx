@@ -20,6 +20,8 @@ const SignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+  
+  const [loading, setLoading] = useState(false);
 
   /////////////////////////////////////////////////////////////
 
@@ -64,6 +66,7 @@ const SignIn = () => {
     ///////////////////////////////////////////////////////////
 
     try {
+      setLoading(true);
       const response = await axios.post("/signin", signInFormData,
         {
           headers: {
@@ -83,6 +86,7 @@ const SignIn = () => {
 
       setAuth({ email: email, username: username, userID: userID, accessToken });
       toast.success("Logged in successfully");
+      setLoading(false);
       navigate(from, { replace: true });
 
     } catch (error) {
@@ -95,6 +99,8 @@ const SignIn = () => {
       else {
         toast.error('An error occurred');
       }
+      
+      setLoading(false);
     }
   }
 
@@ -172,7 +178,7 @@ const SignIn = () => {
                 </a>
               </div>
 
-              <button className="p-2 rounded-lg bg-white mb-5">
+              <button className={`${loading ? 'p-2 rounded-lg bg-gray-300 mb-5' : 'p-2 rounded-lg bg-white mb-5' }`} disabled={loading}>
                 Sign In
               </button>
 
