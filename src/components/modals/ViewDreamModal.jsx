@@ -45,7 +45,7 @@ const ViewDreamModal = props => {
 
   return (
     <Modal open={openModal} onClose={() => {setOpenModal(false);setModal(false)}}>
-      <Box sx={dps3} className='bg-white rounded w-2/3 flex flex-col gap-4 justify-between'>
+      <Box sx={dps3} className='bg-white rounded-3xl w-2/3 flex flex-col gap-4 justify-between'>
         <div className="flex flex-col gap-4">
           <div>
             <div className="flex justify-between">

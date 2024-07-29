@@ -10,17 +10,16 @@ import { MdHome, MdDashboard } from "react-icons/md";
 
 import useAuth from "../hooks/useAuth";
 import useLocalContext from "../hooks/useLocalContext";
+import InitialProfile from "./InitialProfile";
 
 import ProfileMenu from "./popoverMenus/ProfileMenu";
-
-
 
 const Sidebar = () => {
   const [anchor, setAnchor] = useState(null);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const { auth } = useAuth();
   const navigate = useNavigate();
-  const { isMiniSidebar, setSidebarType } = useLocalContext();
+  const { isMiniSidebar, setSidebarType, profileData } = useLocalContext();
 
   const [placement, setPlacement] = useState("top-end");
   const open = Boolean(anchor);
@@ -51,6 +50,7 @@ const Sidebar = () => {
     if (isMiniSidebar) {
       setPlacement('top-start');
     } else setPlacement('top-end');
+    console.log(profileData);
   }, [isMiniSidebar]);
 
   return (
@@ -76,22 +76,20 @@ const Sidebar = () => {
                 <div className={`flex items-center gap-3 ${isMiniSidebar ? 'justify-center' : 'justify-start'}`}>
                   {button.icon}
                   {
-                    isMiniSidebar ? <></> : <p className="text-lg">{button.name}</p>
+                    isMiniSidebar ? null : <p className="text-lg">{button.name}</p>
                   }
                 </div>
               </button>
             )
           })}
         </div>
-
         {isMiniSidebar ?
-          <div className="mt-auto flex justify-center mb-2">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-gka0l1ZzNvolZQoaOUCZLAegXtk_mom0DA&s" alt="profile" className={`rounded-full w-[48px]`} />
-            {/* <FaRegCircleUser size={38} className="hover:cursor-pointer select-none" onClick={handleProfileMenuClick}/> */}
+          <div className="mt-auto flex justify-center mb-2" onClick={handleProfileMenuClick}>
+            <InitialProfile data={profileData}/>
           </div>
           :
           <div className="flex justify-between items-end mt-auto mb-2">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-gka0l1ZzNvolZQoaOUCZLAegXtk_mom0DA&s" alt="profile" className={`rounded-full w-[48px]`} />
+            <InitialProfile data={profileData}/>
             <div className="ml-2 overflow-hidden">
               <p className="font-semibold">{auth.username}</p>
               <p className="font-light text-sm truncate">{auth.email}</p>

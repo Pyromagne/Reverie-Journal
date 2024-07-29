@@ -1,10 +1,19 @@
-import { React, createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 
-const StateContext = createContext();
+const StateContext = createContext({});
 
 export const ContextProvider = ({ children }) => {
   const [modal, setModal] = useState(false);
   const [isMiniSidebar, setIsMiniSidebar] = useState(false);
+
+  const [profileData, setProfileData] = useState(() => {
+    const savedProfileData = localStorage.getItem('profileData');
+    return savedProfileData ? JSON.parse(savedProfileData) : {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem('profileData', JSON.stringify(profileData));
+  }, [profileData]);
 
   const setSidebarType = () => {
     setIsMiniSidebar(prev => !prev);
@@ -18,6 +27,8 @@ export const ContextProvider = ({ children }) => {
         isMiniSidebar,
         setIsMiniSidebar,
         setSidebarType,
+        profileData,
+        setProfileData
       }}>
       {children}
     </StateContext.Provider>

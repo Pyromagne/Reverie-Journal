@@ -5,7 +5,10 @@ import toast from "react-hot-toast";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 
 import useAuth from "../hooks/useAuth";
+import useLocalContext from "../hooks/useLocalContext";
 import axios from '../api/axios';
+
+import { generateProfile } from "../components/InitialProfile";
 
 import { sd1 } from "../data/strings";
 /////////////////////////////////////////////////////////////
@@ -13,6 +16,7 @@ import { sd1 } from "../data/strings";
 const SignIn = () => {
 
   const { auth, setAuth, persist, setPersist } = useAuth();
+  const { setProfileData } = useLocalContext();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -73,8 +77,11 @@ const SignIn = () => {
       const email = response?.data?.email;
       const userID = response?.data?.userID;
 
-      setAuth({ email: email, username: username, userID: userID, accessToken });
+      const profile = generateProfile(username);
+      setProfileData(profile);
+      localStorage.setItem('profileData', JSON.stringify(profile));
 
+      setAuth({ email: email, username: username, userID: userID, accessToken });
       toast.success("Logged in successfully");
       navigate(from, { replace: true });
 
