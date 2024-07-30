@@ -1,9 +1,7 @@
 import React from "react";
 import dayjs from "dayjs";
-import { Button, Divider, Modal, Box } from "@mui/material";
+import { Modal, ModalDialog } from "@mui/joy";
 import toast from "react-hot-toast";
-
-import { LuTrash2, LuFileEdit } from "react-icons/lu";
 
 import useLocalContext from "../../hooks/useLocalContext";
 import axios from "../../api/axios";
@@ -25,11 +23,11 @@ const ViewDreamModal = props => {
 
   const { dream } = props;
   const { openModal, setOpenModal } = props;
-  const {setModal} = useLocalContext();
+  const { setModal } = useLocalContext();
 
   const deleteDream = async (id) => {
     try {
-      const response = await axios.delete(`/delete/${id}`,{withCredentials: true});
+      const response = await axios.delete(`/delete/${id}`, { withCredentials: true });
       toast.success("Dream deleted successfully");
       props.onDelete();
       setOpenModal(false);
@@ -44,45 +42,43 @@ const ViewDreamModal = props => {
   }
 
   return (
-    <Modal open={openModal} onClose={() => {setOpenModal(false);setModal(false)}}>
-      <Box sx={dps3} className='bg-white rounded-3xl w-2/3 flex flex-col gap-4 justify-between'>
-        <div className="flex flex-col gap-4">
-          <div>
-            <div className="flex justify-between">
-              <p>{dream.Title}</p>
-              <p>{formatDate(dream.Date)}</p>
-            </div>
-            <p className="flex justify-end">{formatTime(dream.Time)}</p>
-            <Divider className="py-1" />
-            </div>
-            <div className="flex flex-col">
-              <p className="text-justify">{dream.Description}</p>
-            </div>
+    <Modal open={openModal} onClose={() => { setOpenModal(false); setModal(false) }}>
+      <ModalDialog sx={dps3}>
+        <div className="mb-6">
+          <p className="font-semibold text-[#267E66]">{dream.Title}</p>
+          <span className="flex text-gray-500 font-light text-sm">
+            <p>{`${formatDate(dream.Date)} at ${formatTime(dream.Time)}`}</p>
+          </span>
+        </div>
+
+        <p className="mb-11 text-pretty font-light">{dream.Description}</p>
+
+        <div className="flex w-full flex-col gap-4">
+          <div className="flex flex-wrap gap-1">
+            {dream.Tags.map((tag, index) => {
+              return (
+                <Chip text={tag} readOnly />
+              )
+            })}
+            {dream.Emotions.map((tag, index) => {
+              return (
+                <Chip text={tag} readOnly />
+              )
+            })}
           </div>
-          <div className="flex w-full flex-col gap-4">
-            <div className="flex flex-wrap gap-1">
-              {dream.Tags.map((tag, index)=>{
-                return (
-                  <Chip text={tag} readOnly/>
-                )
-              })}
-              {dream.Emotions.map((tag, index)=>{
-                return (
-                  <Chip text={tag} readOnly/>
-                )
-              })}
+        </div>
+
+        {props.delete && (
+            <div className="mt-auto ml-auto">
+              <button className="bg-[#267E66] text-white px-3 py-1 rounded-lg mr-2 font-medium">Edit</button>
+              <button className="text-[#790000]" onClick={() => {deleteDream(dream._id)}}>
+                <span className="box-border outline-2 outline-[#790000] outline px-3 py-1 rounded-lg font-medium">Delete</span>
+              </button>
             </div>
-            {props.delete && (
-              <div className="place-self-end">
-                <Button color="primary"><LuFileEdit size={24}/></Button>
-                <Button onClick={() => {deleteDream(dream._id)}} color="error"><LuTrash2 size={24}/></Button>
-              </div>
-            )}
-          </div>
-      </Box>
+          )}
+      </ModalDialog>
     </Modal>
   )
 }
-
 
 export default ViewDreamModal;
