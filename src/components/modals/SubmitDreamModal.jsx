@@ -11,6 +11,10 @@ import Chip from '../Chip';
 
 import { dps3 } from "../../constants";
 
+import { ring } from 'ldrs'
+
+ring.register()
+
 const dreamType = [
   {
     name: 'Normal',
@@ -37,6 +41,7 @@ const SubmitDreamModal = props => {
   const { openModal, setOpenModal } = props;
   const { auth } = useAuth();
   const { setModal } = useLocalContext();
+  const [loading, setLoading] = useState(false);
 
   //DATE FIELD HANDLERS////////////////////////////////////////
 
@@ -157,6 +162,7 @@ const SubmitDreamModal = props => {
     /////////////////////////////////////////////////////////////
 
     try {
+      setLoading(true);
       const response = await axios.post("/submit", dreamFormData,
         {
           headers: {
@@ -170,6 +176,7 @@ const SubmitDreamModal = props => {
       props.onSubmit();
       setModal(false);
       setOpenModal(false);
+      setLoading(false);
 
     } catch (error) {
       if (error.response && error.response.status >= 400 && error.response.status < 500) {
@@ -181,6 +188,8 @@ const SubmitDreamModal = props => {
       else {
         toast.error('An error occurred');
       }
+
+      setLoading(false);
     }
   }
 
@@ -300,16 +309,20 @@ const SubmitDreamModal = props => {
           })}
         </div>
 
-        <div className='mt-auto ml-auto flex'>
+        <div className='mt-auto ml-auto flex w-1/3'>
           <button
             onClick={handleSubmitDream}
-            className='w-1/2 bg-[#267E66] text-white px-3 py-1 rounded-lg mr-2 font-medium"'>
-            Submit
+            className='flex items-center justify-center w-1/2 bg-[#267E66] text-white px-3 py-1 rounded-lg mr-2 font-medium'
+            disabled={loading}
+          >
+            {loading
+                  ? <l-ring size="16" speed="1" color="white" stroke="2"/> 
+                  : 'Submit'}
           </button>
           <button
             onClick={() => { setOpenModal(false); setModal(false); cleanForm() }}
-            className='w-1/2 text-[#790000]'>
-            <span className="outline-2 outline outline-[#790000] px-3 py-1 rounded-lg font-medium -outline-offset-1">Cancel</span>
+            className='w-1/2 text-[#790000] outline-2 outline outline-[#790000] px-3 py-1 rounded-lg font-medium -outline-offset-1'>
+            Cancel
           </button>
         </div>
       </ModalDialog>
