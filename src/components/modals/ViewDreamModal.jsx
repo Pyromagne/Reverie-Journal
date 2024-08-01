@@ -72,7 +72,7 @@ const ViewDreamModal = props => {
             <div className="mt-auto ml-auto">
               <button className="bg-[#267E66] text-white px-3 py-1 rounded-lg mr-2 font-medium">Edit</button>
               <button className="text-[#790000]" onClick={() => {deleteDream(dream._id)}}>
-                <span className="box-border outline-2 outline-[#790000] outline px-3 py-1 rounded-lg font-medium">Delete</span>
+                <span className="outline-2 outline outline-[#790000] px-3 py-1 rounded-lg font-medium -outline-offset-1">Delete</span>
               </button>
             </div>
           )}

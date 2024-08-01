@@ -27,17 +27,17 @@ export const dynamicPopupStyle2 = {
 };
 
 export const dps3 = {
-  /* background: 'rgb(255,255,255, .6)',
-  backdropFilter: 'blur(15px)', */
+  background: 'rgb(255,255,255)',
+  backdropFilter: 'blur(15px)',
   border: 'solid #9ca3af 1px',
-  borderRadius: 16,
+  borderRadius: '20px',
   position: "fixed",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   overflowY: "scroll",
   scrollbarWidth: "none",
-  p: 4,
+  p: '34px',
   width: isMobile ? "100%" : "min(80%, 600px)", // Adjust the maximum width as needed (600px in this example)
   height: isMobile ? "90vh" : "min(82%, 90vh)", // Adjust the maximum height as needed (1500px in this example)
 }

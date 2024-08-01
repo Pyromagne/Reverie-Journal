@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-import { Box, Modal, TextField, Button, Divider, MenuItem } from "@mui/material";
-import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Modal, ModalDialog } from '@mui/joy';
 import toast from 'react-hot-toast';
 
 import useAuth from '../../hooks/useAuth';
@@ -12,7 +9,26 @@ import axios from '../../api/axios';
 
 import Chip from '../Chip';
 
-import { centuryGothicFont, dps3 } from "../../constants";
+import { dps3 } from "../../constants";
+
+const dreamType = [
+  {
+    name: 'Normal',
+    value: 'dt000'
+  },
+  {
+    name: 'Lucid',
+    value: 'dt001'
+  },
+  {
+    name: 'Nightmare',
+    value: 'dt002'
+  },
+  {
+    name: 'Dream Within a Dream',
+    value: 'dt003'
+  },
+]
 
 /////////////////////////////////////////////////////////////
 
@@ -25,15 +41,17 @@ const SubmitDreamModal = props => {
   //DATE FIELD HANDLERS////////////////////////////////////////
 
   const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [selectedTime, setSelectedTime] = useState("");
+  const [selectedTime, setSelectedTime] = useState(dayjs());
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const handleDateChange = (e) => {
+    setSelectedDate(dayjs(e.target.value));
   };
 
-  const handleTimeChange = (time) => {
-    const timeObject = dayjs(time).format("HH:mm")
-    setSelectedTime(timeObject);
+  const handleTimeChange = (e) => {
+    const [hours, minutes] = e.target.value.split(':');
+    const newTime = selectedTime.hour(hours).minute(minutes);
+    setSelectedTime(newTime);
+    setSelectedDate(selectedDate.hour(newTime.hour()).minute(newTime.minute()));
   };
 
   //TAG FIELD HANDLERS/////////////////////////////////////////
@@ -109,7 +127,7 @@ const SubmitDreamModal = props => {
     setTitle("");
     setType("normal");
     setSelectedDate(dayjs());
-    setSelectedTime("");
+    setSelectedTime(dayjs());
     setDescription("");
     setTags([]);
     setEmotions([]);
@@ -123,7 +141,7 @@ const SubmitDreamModal = props => {
       Title: title,
       Type: type,
       Date: selectedDate.startOf("day").format("MM-DD-YYYY"),
-      Time: selectedTime,
+      Time: selectedTime.format("HH:mm"),
       Description: description,
       Tags: tags,
       Emotions: emotions,
@@ -191,98 +209,110 @@ const SubmitDreamModal = props => {
   /////////////////////////////////////////////////////////////
 
   return (
-    <Modal open={openModal} onClose={() => { setOpenModal(false); setModal(false) }}>
-      <Box sx={dps3} className='bg-white rounded w-2/3 flex flex-col justify-between gap-4'>
-        <p className='text-xl text-slate-600'>Dream Journal Entry</p>
-        <form action='' className="flex flex-col">
-          <Box className="flex md:flex-row flex-col md:justify-between justify-center gap-4">
+    <Modal open={openModal} onClose={() => { setOpenModal(false); setModal(false); }}>
+      <ModalDialog sx={dps3}>
+        <p className='font-semibold text-lg text-[#267E66] mb-5'>Dream Journal Entry</p>
+        <form>
+          <div className="flex md:flex-row flex-col md:justify-between justify-center gap-4 mb-6">
             <div className="md:mb-0 mb-6 place-self-center w-full md:w-3/5">
               <div className="md:mb-2 mb-6 place-self-center w-full">
-                <TextField label='Dream Title' id="Title" variant='outlined' className="place-self-center w-full"
-                  InputProps={{ style: centuryGothicFont }} InputLabelProps={{ style: centuryGothicFont }} onChange={(e) => setTitle(e.target.value)} />
+                <input
+                  id="Text"
+                  type='text'
+                  placeholder='Title'
+                  className="h-10 border border-gray-400 rounded-lg w-full p-2 font-light focus:outline-none"
+                  onChange={(e) => setTitle(e.target.value)}
+                />
               </div>
               <div className="md:mb-0 mb-4 place-self-center w-full">
-                <TextField
-                  label="Type"
-                  value={type}
+                <select
+                  id="Type"
+                  className="h-10 border border-gray-400 rounded-lg w-full p-2 font-light focus:outline-none"
                   onChange={(e) => setType(e.target.value)}
-                  className="place-self-center w-full"
-                  InputProps={{ style: centuryGothicFont }} InputLabelProps={{ style: centuryGothicFont }}
-                  select
                 >
-                  <MenuItem value={'normal'}>Normal</MenuItem>
-                  <MenuItem value={'lucid'}>Lucid</MenuItem>
-                  <MenuItem value={'nightmare'}>Nightmare</MenuItem>
-                  <MenuItem value={'dwad'}>Dream Within a Dream</MenuItem>
-                </TextField>
+                  {dreamType.map((type, index) => {
+                    return <option key={index} value={type.value}>{type.name}</option>
+                  })}
+                </select>
               </div>
             </div>
+
             <div className="md:mb-0 mb-6 place-self-center w-full md:w-1/3">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <div className="md:mb-2 mb-6 place-self-center w-full">
-                  <DesktopDatePicker label='Date' variant='outlined' className="place-self-center w-full"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    sx={{
-                      '& .MuiInputBase-input': centuryGothicFont,
-                      '& .MuiInputLabel-root': centuryGothicFont,
-                    }} />
-                </div>
-                <div className="md:mb-0 mb-4 place-self-center w-full">
-                  <TimePicker label="Time" variant='outlined' className="place-self-center w-full"
-                    onChange={handleTimeChange}
-                    sx={{
-                      '& .MuiInputBase-input': centuryGothicFont,
-                      '& .MuiInputLabel-root': centuryGothicFont,
-                    }} />
-                </div>
-              </LocalizationProvider>
+              <div className="md:mb-2 mb-6 place-self-center w-full">
+                <input
+                  type="date"
+                  value={selectedDate.format('YYYY-MM-DD')}
+                  onChange={handleDateChange}
+                  className="h-10 border border-gray-400 rounded-lg w-full p-2 font-light focus:outline-none"
+                />
+              </div>
+              <div className="md:mb-0 mb-4 place-self-center w-full">
+                <input
+                  type="time"
+                  value={selectedTime.format('HH:mm')}
+                  onChange={handleTimeChange}
+                  className="h-10 border border-gray-400 rounded-lg w-full p-2 font-light focus:outline-none"
+                />
+              </div>
             </div>
-          </Box>
-          <Divider sx={{ margin: '15px 0px', width: '100%' }} />
-          <TextField label='Description' id="Description" variant='outlined' multiline rows={4} className="place-self-center" sx={{ width: '100%' }}
-            InputProps={{ style: centuryGothicFont }} InputLabelProps={{ style: centuryGothicFont }} onChange={(e) => setDescription(e.target.value)} />
-          <div className='flex w-full mt-6'>
+          </div>
+
+          <textarea
+            rows="4"
+            id="Description"
+            placeholder="Description..."
+            className="mb-6 place-self-center w-full p-2 border border-gray-400 rounded-lg font-light focus:outline-none resize-none"
+            onChange={(e) => setDescription(e.target.value)} />
+          <div className='flex w-full'>
             <div className='w-full md:w-1/2'>
-              <TextField id='tagInput' label="Add Tag" variant="standard" value={tagInput} onChange={handleTagInputChange}
-                sx={{ width: '100%' }} InputProps={{ style: centuryGothicFont }} InputLabelProps={{ style: centuryGothicFont }}
+              <input
+                id='tagInput'
+                value={tagInput}
+                onChange={handleTagInputChange}
+                placeholder='Tag'
+                className='w-full p-2 border-b border-b-gray-400 font-light focus:outline-none resize-none'
               />
             </div>
             <div className='w-full md:w-1/2'>
-              <TextField id='emotionInput' label="Add Emotion" variant="standard" value={EmotionInput} onChange={handleEmotionInputChange}
-                sx={{ width: '100%' }} InputProps={{ style: centuryGothicFont }} InputLabelProps={{ style: centuryGothicFont }}
+              <input
+                id='emotionInput'
+                value={EmotionInput}
+                onChange={handleEmotionInputChange}
+                placeholder='Emotion'
+                className='w-full p-2 border-b border-b-gray-400 font-light focus:outline-none resize-none'
               />
             </div>
           </div>
         </form>
-        <div className='w-full' style={tagCount ? { marginTop: '4px', marginBottom: '4px' } : { marginTop: '0px', marginBottom: '0px' }}>
+        
+        <div className={`flex w-full overflow-scroll overflow-y-hidden gap-1 ${tagCount ? 'mt-1 mb-1' : 'm-0'}`}>
           {tags.map((tag, index) => {
             return (
               <Chip text={tag} chipKey={index} onDelete={handleDeleteTag} onCountChange={handleTagCountChange} />
             )
           })}
         </div>
-        <div className='w-full' style={emotionCount ? { marginTop: '4px', marginBottom: '4px' } : { marginTop: '0px', marginBottom: '0px' }}>
+        <div className={`flex w-full overflow-scroll overflow-y-hidden gap-2 ${tagCount ? 'mt-1 mb-1' : 'm-0'}`}>
           {emotions.map((emotion, index) => {
             return (
-              <Chip text={emotion} chipKey={index} onDelete={handleDeleteEmotion} onCountChange={handleEmotionCountChange} />
+              <Chip text={emotion} chipKey={index} onDelete={handleDeleteEmotion} onCountChange={handleEmotionCountChange} color='#00A36C' />
             )
           })}
         </div>
-        <div className="flex md:justify-between md:flex-row flex-col justify-center">
-          <Button variant="outlined" onClick={() => setOpenModal(false)} color="secondary" sx={centuryGothicFont} disabled>
-            Save as draft
-          </Button>
-          <div className='flex space-x-2 justify-between pt-2 md:pt-0'>
-            <Button variant="outlined" onClick={handleSubmitDream} color="primary" sx={centuryGothicFont} className='w-1/2'>
-              Submit
-            </Button>
-            <Button variant="outlined" onClick={() => { setOpenModal(false); setModal(false) }} color="secondary" sx={centuryGothicFont} className='w-1/2'>
-              Cancel
-            </Button>
-          </div>
+
+        <div className='mt-auto ml-auto flex'>
+          <button
+            onClick={handleSubmitDream}
+            className='w-1/2 bg-[#267E66] text-white px-3 py-1 rounded-lg mr-2 font-medium"'>
+            Submit
+          </button>
+          <button
+            onClick={() => { setOpenModal(false); setModal(false); cleanForm() }}
+            className='w-1/2 text-[#790000]'>
+            <span className="outline-2 outline outline-[#790000] px-3 py-1 rounded-lg font-medium -outline-offset-1">Cancel</span>
+          </button>
         </div>
-      </Box>
+      </ModalDialog>
     </Modal>
   );
 };

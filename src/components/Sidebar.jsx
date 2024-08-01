@@ -50,7 +50,6 @@ const Sidebar = () => {
     if (isMiniSidebar) {
       setPlacement('top-start');
     } else setPlacement('top-end');
-    console.log(profileData);
   }, [isMiniSidebar]);
 
   return (
