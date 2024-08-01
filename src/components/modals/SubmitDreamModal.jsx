@@ -293,7 +293,7 @@ const SubmitDreamModal = props => {
             </div>
           </div>
         </form>
-        
+
         <div className={`flex w-full overflow-scroll overflow-y-hidden gap-1 ${tagCount ? 'mt-1 mb-1' : 'm-0'}`}>
           {tags.map((tag, index) => {
             return (
@@ -316,8 +316,8 @@ const SubmitDreamModal = props => {
             disabled={loading}
           >
             {loading
-                  ? <l-ring size="16" speed="1" color="white" stroke="2"/> 
-                  : 'Submit'}
+              ? <l-ring size="16" speed="1" color="white" stroke="2" />
+              : 'Submit'}
           </button>
           <button
             onClick={() => { setOpenModal(false); setModal(false); cleanForm() }}
