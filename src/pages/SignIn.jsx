@@ -12,9 +12,10 @@ import { generateProfile } from "../components/InitialProfile";
 
 import { sd1 } from "../data/strings";
 
-import { momentum } from 'ldrs'
+import { dotPulse } from 'ldrs'
 
-momentum.register();
+dotPulse.register()
+
 /////////////////////////////////////////////////////////////
 
 const SignIn = () => {
@@ -183,7 +184,7 @@ const SignIn = () => {
               </div>
               <button className="p-2 rounded-lg bg-white mb-5" disabled={loading}>
                 {loading
-                  ? <l-momentum size="18" speed="1" color="black" /> 
+                  ? <l-dot-pulse size="28" speed="1" color="black" /> 
                   : 'Sign In'}
               </button>
 
