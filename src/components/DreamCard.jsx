@@ -13,18 +13,19 @@ const formatDate = date => {
 
 const inDreamCard = ({ data: { Title, Date, Description, Tags, Emotions } }) => (
   <div className="max-w-full h-auto p-2 m-2 cursor-pointer g-outline rounded-md hover:bg-white/20 duration-300">
-    <p className="mx-1 mb-2 font-semibold">{Title}</p>
-    <p className="mx-1 font-light">{truncateDescription(Description, 275)}</p>
+    <p className="font-light text-xs">{Date}</p>
+    <p className="font-semibold text-sm mb-3">{Title}</p>
+    <p className="font-light text-sm mb-3">{truncateDescription(Description, 275)}</p>
     <div className="flex flex-col">
       <div className="flex flex-wrap gap-1">
         {
           Tags.slice(0, 3).map((tag, index) => (
-            <Chip key={index} text={tag} readOnly={true}/>
+            <p className="text-[#267E66] text-sm border border-[#267E66] px-2 rounded-full" key={index}>{tag}</p>
           ))
         }
         {
           Emotions.slice(0, 3).map((emotion, index) => (
-            <Chip key={index} text={emotion} readOnly={true} />
+            <p className="text-[#00A36C] text-sm border border-[#00A36C] px-2 rounded-full" key={index}>{emotion}</p>
           ))
         }
       </div>

@@ -20,7 +20,7 @@ const Chip = ({ text, onDelete, readOnly, chipKey, color = '#267E66' }) => {
     <div
       onClick={readOnly ? null : () => onDelete(chipKey)}
       style={{ borderColor: color, color: color }}
-      className={`inline w-fit h-fit border rounded-full p-1 px-2 ${readOnly ? '' : 'hover:cursor-pointer'}`}
+      className={`inline w-fit h-fit border rounded-full p-1 px-2 ${readOnly ? null : 'hover:cursor-pointer'}`}
       /* onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave} */
     >
