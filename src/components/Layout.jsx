@@ -10,10 +10,12 @@ const Layout = () => {
 
       <div className={`homeLayout flex h-screen`}>
         <Sidebar />
-        <main className='flex-1 flex flex-col w-full'>
+        
+        <main className='w-full'>
           <Outlet />
         </main>
       </div>
+      
     </div>
   )
 }

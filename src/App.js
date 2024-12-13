@@ -34,7 +34,7 @@ function App() {
 
         </Route>
 
-        <Route path="*" element={<SignIn />} />
+        <Route path="*" element={<Home />} />
       </Route>
 
 
