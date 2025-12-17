@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* *{
   outline: navy 1px solid;
@@ -14,10 +12,6 @@
 .poppins-regular {
   font-family: "Poppins", sans-serif;
   font-style: normal;
-}
-
-* {
-  @apply poppins-regular;
 }
 
 body {

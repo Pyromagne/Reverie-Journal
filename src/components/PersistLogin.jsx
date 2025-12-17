@@ -4,7 +4,7 @@ import {Outlet} from "react-router-dom";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
 
-import LoadingScreenOverlay from "../components/LoadingScreenOverlay";
+import LoadingScreenOverlay from "./LoadingScreenOverlay";
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);

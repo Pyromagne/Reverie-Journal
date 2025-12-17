@@ -6,7 +6,7 @@ import Sidebar from "./Sidebar";
 const Layout = () => {
 
   return (
-    <div className="app gradient-background-2">
+    <div className="app gradient-background-2 poppins-regular">
 
       <div className={`homeLayout flex h-screen`}>
         <Sidebar />
